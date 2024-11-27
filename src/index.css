@@ -1,0 +1,12 @@
+body {
+    margin: 0;
+    background-color: #d9d9d9;
+    font-family: Arial, sans-serif;
+    background-image: url(https://img.freepik.com/premium-vector/abstract-modern-blue-banner-background-design-with-health-icons-symbols-template-design-with-concept-idea-healthcare-technology-innovation-medicine-health-science-research_181182-15851.jpg?w=1380);
+    background-size: cover;
+    background-repeat: repeat;
+    background-position: center;
+    min-height: 100vh;
+  }
+
+

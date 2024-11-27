@@ -1,0 +1,101 @@
+.container {
+    padding: 20px;
+    font-family: Arial, sans-serif;
+    background-color: #f8f9fa;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    max-width: 1000px;
+    margin: 20px auto;
+    position: relative;
+
+}
+
+/* Tiêu đề chính */
+.header {
+    font-size: 24px;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 20px;
+    text-align: center;
+    
+}
+.info {
+    display: flex;
+    justify-content: space-between;
+    border: 1px solid #333;
+    border-radius: 10px;
+    padding: 10px;
+    margin: 10px 0;
+}
+
+
+
+.infoItem {
+    flex: 1;
+    margin: 0 10px;
+    padding: 10px;
+    background-color: #ffffff; /* Nền trắng cho mỗi mục */
+    border: 1px solid #ddd; /* Viền nhẹ */
+    border-radius: 8px;
+}
+
+
+.resultTable {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+.resultTable th,
+.resultTable td {
+    border: 1px solid #ddd;
+    text-align: center;
+    padding: 10px;
+    font-size: 14px;
+}
+
+.resultTable th {
+    background-color: #007bff;
+    color: #fff;
+    font-weight: bold;
+}
+
+.resultTable tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+
+
+/* Thông báo không tìm thấy */
+.noResult {
+    text-align: center;
+    font-size: 16px;
+    color: #555;
+    margin-top: 20px;
+}
+
+/* Chỉnh kích thước từng cột */
+.resultTable th.id,
+.resultTable td.id {
+    width: 5%;
+}
+
+.resultTable th.nameMedicine,
+.resultTable td.nameMedicine {
+    width: 40%;
+}
+
+.resultTable th.unit,
+.resultTable td.unit {
+    width: 15%;
+}
+
+.resultTable th.quantity,
+.resultTable td.quantity {
+    width: 10%;
+}
+
+.resultTable th.dosage,
+.resultTable td.dosage {
+    width: 20%;
+}
