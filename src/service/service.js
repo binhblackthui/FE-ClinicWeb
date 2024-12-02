@@ -11,8 +11,11 @@ export const getExaminationResult = (id) => {
     return axios.get("/api/examinationResults/"+id)
 }
 export const getPrescription = (id) => {
-    return axios.get("/api/prescription/"+id)
+    return axios.get("/api/prescriptions/"+id)
 }
 export const searchPatients=(id,fullname,date)=>{
     return axios.get("/api/patients/search?id="+id+"&fullname="+fullname+"&date="+date)
+}
+export const getRevenue = (day) => {
+    return axios.get("/api/report/revenue?date="+day)
 }

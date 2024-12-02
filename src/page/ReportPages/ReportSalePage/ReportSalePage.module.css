@@ -9,9 +9,8 @@
     margin: 0 auto;
     position: relative;
     top: 10vh;
+    margin-bottom: 200px;
 }
-
-/* Tiêu đề chính */
 .header {
     font-size: 24px;
     font-weight: bold;
@@ -22,18 +21,21 @@
 }
 
 /* Form tìm kiếm */
-.searchForm {
+.dateForm {
+    max-width: 300px;
     display: flex;
     flex-wrap: wrap;
     gap: 15px;
     margin-bottom: 20px;
     align-items: center;
-    justify-content: space-between;
+   
 }
 .inputForm{
     display: flex;
     flex-direction: column;
     flex: 1;
+    align-items: center;
+
 }
 .inputField {
     flex: 1;
@@ -45,34 +47,54 @@
     font-size: 14px;
     outline: none;
     transition: border-color 0.3s;
+    margin-right: 10px;
+    
 }
 
 .inputField:focus {
     border-color: #007bff;
 }
-
-/* Nút tìm kiếm */
 .searchButton {
     background-color: #007bff;
-    color: #fff;
+    color: #ffffff;
     border: none;
-    margin-top: 28px;
-    padding: 10px 20px;
-    border-radius: 4px;
+    padding: 12px 24px;
+    border-radius: 6px;
+    font-size: 16px;
+    font-weight: 600;
     cursor: pointer;
-    font-size: 14px;
-    transition: background-color 0.3s;
+    transition: background-color 0.3s, transform 0.2s, box-shadow 0.2s;
+
+    /* Hiệu ứng đổ bóng mặc định */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
+/* Hiệu ứng khi di chuột */
 .searchButton:hover {
     background-color: #0056b3;
+    transform: translateY(-3px);
+    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
 }
 
+/* Hiệu ứng khi nhấn */
+.searchButton:active {
+    background-color: #003f8c;
+    transform: translateY(0);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.error {
+    color: red;
+    font-size: 14px;
+    margin-top: 5px;
+}
 /* Bảng kết quả tìm kiếm */
 .resultTable {
     width: 100%;
     border-collapse: collapse;
     margin-top: 20px;
+
+;
 }
 
 .resultTable th,
@@ -81,7 +103,6 @@
     text-align: center;
     padding: 10px;
     font-size: 14px;
-    cursor: pointer;
 }
 
 .resultTable th {
@@ -90,48 +111,5 @@
     font-weight: bold;
 }
 
-.resultTable tr:nth-child(even) {
-    background-color: #f2f2f2;
-}
 
-.resultTable tr:hover {
-    background-color: #e9ecef;
-}
 
-/* Thông báo không tìm thấy */
-.noResult {
-    text-align: center;
-    font-size: 16px;
-    color: #555;
-    margin-top: 20px;
-}
-
-/* Chỉnh kích thước từng cột */
-.resultTable th.index,
-.resultTable td.index {
-    width: 5%;
-}
-
-.resultTable th.id,
-.resultTable td.id {
-    width: 5%;
-}
-.resultTable th.name,
-.resultTable td.name {
-    width: 20%;
-}
-
-.resultTable th.birth,
-.resultTable td.birth {
-    width: 10%;
-}
-
-.resultTable th.date,
-.resultTable td.date {
-    width: 10%;
-}
-
-.resultTable th.address,
-.resultTable td.address {
-    width: 50%;
-}

@@ -7,9 +7,9 @@
     background-color: rgba(0, 0, 0, 0.5);
     display: flex;
     justify-content: center;
-    align-items: center;
-    overflow-x: auto; /* Cho phép cuộn ngang nếu bảng quá lớn */
-
+    align-items: center; /* Căn giữa nội dung theo cả hai chiều */
+    overflow-x: auto; /* Cho phép cuộn ngang nếu cần */
+    
 }
 
 .modalContent {
@@ -17,9 +17,10 @@
     padding: 20px;
     border-radius: 10px;
     width: 70%;
+    max-height: 80vh; /* Giới hạn chiều cao modal để tránh tràn màn hình */
+    overflow-y: auto; /* Thêm cuộn dọc nếu nội dung quá lớn */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Hiệu ứng nổi */
     position: relative;
-    top : 10vh;
- 
 }
 
 .closeButton {
@@ -30,4 +31,10 @@
     border: none;
     font-size: 24px;
     cursor: pointer;
+    color: #333;
+    transition: color 0.3s ease; /* Hiệu ứng chuyển đổi màu */
+}
+
+.closeButton:hover {
+    color: red; /* Đổi màu khi hover để tăng trải nghiệm người dùng */
 }
