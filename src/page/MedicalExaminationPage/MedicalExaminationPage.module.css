@@ -37,4 +37,19 @@ button{
     color:black;
     background-color: greenyellow
 }
-
+.table{
+    margin-top: 20px;
+    width: 1000px;   
+}
+.makeExamination{
+    font-size: 20px;
+    margin: 20px;
+}
+.label_input_container {
+    display: flex;
+}
+td, tr{
+    margin: 20px;
+    padding: 20px;
+    align-items: center;
+}

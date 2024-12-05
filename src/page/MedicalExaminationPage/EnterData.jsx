@@ -2,7 +2,6 @@
     import styles from './MedicalExaminationPage.module.css';
     import { addPatient } from '../../service/service';
 
-
     const FormExamble = () =>{
         const [formData, setFormData] = useState({
             fullname: '',
