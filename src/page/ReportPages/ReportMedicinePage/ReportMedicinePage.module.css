@@ -24,6 +24,7 @@
 .dateForm {
     max-width: 300px;
     display: flex;
+   
     align-items: center; /* Căn giữa theo chiều ngang */
     justify-content: center; /* Căn giữa theo chiều dọc */
     margin: 0 auto; /* Đảm bảo căn giữa trên màn hình */
@@ -84,9 +85,10 @@
 
 .error {
     color: red;
-    font-size: 20px;
+    font-size: 18px;
     padding-top: 20px;
     text-align: center; /* Căn chỉnh văn bản sang trái */
+    flex: 1;
 }
 /* Bảng kết quả tìm kiếm */
 .resultTable {
@@ -112,54 +114,3 @@
 }
 
 
-
-.finalTable {
-    width: 100%;
-    border-collapse: collapse;
-    margin: 20px 0;
-    font-family: Arial, sans-serif;
-}
-
-.finalTable h1 {
-    text-align: center;
-    font-size: 32px;
-    color: white;
-    margin-bottom: 10px;
-}
-
-.finalTable th, .finalTable td {
-    padding: 12px 15px;
-    border: 1px solid #ddd;
-    text-align: left;
-}
-
-.finalTable th {
-    background-color: yellow;
-    color: #333;
-    font-weight: bold;
-    width: 50%;
-}
-
-.finalTable td {
-    background-color: #fff;
-    font-size: 18px;
-    color: #333;
-
-    text-align: center;
-}
-
-.finalTable tr:nth-child(even) {
-    background-color: #f9f9f9;
-}
-
-.finalTable tr:hover {
-    background-color: #f1f1f1;
-}
-
-.finalTable td[colspan="2"] {
-    text-align: center;
-    background-color: #007bff;
-    color: white;
-    font-size: 20px;
-    font-weight: bold;
-}

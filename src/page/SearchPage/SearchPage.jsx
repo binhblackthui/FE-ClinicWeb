@@ -3,6 +3,7 @@ import styles from './SearchPage.module.css';
 import { searchPatients } from '../../service/service';
 import FactSheet from '../../components/FactSheet/FactSheet';
 import Modal from '../../components/Modal/Modal';
+import { formatDate } from '../../helper/stringUtils';
 const SearchPage = () => {
     const [searchParams, setSearchParams] = useState({
         id: '',
@@ -12,7 +13,6 @@ const SearchPage = () => {
     const [show, setShow] = useState(false);
     const [patient, setPatient] = useState(null);
     const [results, setResults] = useState([]);
-
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -86,7 +86,6 @@ const SearchPage = () => {
                     <thead>
                         <tr>
                             <th className={styles.index} >STT</th>
-                            <th className={styles.id} >ID</th>
                             <th className={styles.name}>Họ và tên</th>
                             <th className={styles.birth}>Năm sinh</th>
                             <th className={styles.date}>Ngày khám</th>
@@ -97,10 +96,9 @@ const SearchPage = () => {
                         {results.map((patient) => (
                             <tr key={patient.id} onClick={()=>handleInfo(patient)}>
                                 <td className={styles.index}>{results.indexOf(patient) + 1}</td>
-                                <td className={styles.id}>{patient.id}</td>
                                 <td className={styles.name}>{patient.fullname}</td>
                                 <td className={styles.birth}>{patient.yearOfBirth}</td>
-                                <td className={styles.date}>{patient.date}</td>
+                                <td className={styles.date}>{formatDate(patient.date)}</td>
                                 <td className={styles.address}>{patient.address}</td>
                             </tr>
                         ))}

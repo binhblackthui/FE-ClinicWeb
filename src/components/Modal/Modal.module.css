@@ -14,10 +14,10 @@
 
 .modalContent {
     background-color: white;
-    padding: 20px;
+    padding: 60px;
     border-radius: 10px;
-    width: 70%;
-    max-height: 80vh; /* Giới hạn chiều cao modal để tránh tràn màn hình */
+    max-width: 90%;
+    max-height: 75vh; /* Giới hạn chiều cao modal để tránh tràn màn hình */
     overflow-y: auto; /* Thêm cuộn dọc nếu nội dung quá lớn */
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Hiệu ứng nổi */
     position: relative;
@@ -25,6 +25,7 @@
 
 .closeButton {
     position: absolute;
+    margin-top: 0;
     top: 10px;
     right: 10px;
     background: none;

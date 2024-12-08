@@ -3,7 +3,7 @@ import styles from './Homepage.module.css';
 function Homepage() {
     
     return (
-        <div>
+        <div className={styles.body}>
             <div className={styles.Home}>
                 <div className={styles.overlay}>
                     <h1 className={styles.overlay_h1}>PHÒNG MẠCH TƯ NHÂN</h1>

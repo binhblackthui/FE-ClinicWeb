@@ -1,130 +1,153 @@
 import styles from './Menu.module.css';
-import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-function Menu({show}) {
+import React from 'react';
+import { useEffect, useState, useCallback, useMemo } from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
+import clsx from 'clsx';
+
+function Menu({ show }) {
+    const location = useLocation();
     const navigate = useNavigate();
-    const [isActive, setActive] = useState('');
-    const [isExpanded, setExpanded] = useState(''); // Trạng thái chỉ lưu 1 giá trị hoặc null
-    const [isOpen, setOpen] = useState(false);
-    const handleActive = (select) => {
+    const [menu, setMenu] = useState({
+        active: '',
+        expanded: '',
+        open: false,
+    });
+
+    const menuItems = useMemo(() => [
+        { key: 'list', label: 'Lập danh sách khám bệnh', path: '/examination' },
+        { key: 'search', label: 'Tra cứu bệnh nhân', path: '/search' },
+        {
+            key: 'report',
+            label: 'Lập báo cáo',
+            children: [
+                { key: 'sales', label: 'Lập báo cáo doanh thu', path: '/report/sales' },
+                { key: 'medicine', label: 'Lập báo cáo thuốc', path: '/report/medicines' },
+            ],
+        },
+        {
+            key: 'regulasie',
+            label: 'Thay đổi quy định',
+            children: [
+                { key: 'pharmacy', label: 'Thay đổi kho thuốc', path: '/regulations/pharmacy' },
+                { key: 'diseaseList', label: 'Thay đổi danh sách bệnh', path: '/regulations/disease-list' },
+                { key: 'other', label: 'Thay đổi khác', path: '/regulations/other' },
+            ],
+        },
+    ], []);
+
+    useEffect(() => {
+        const activeMenu = menuItems
+            .filter(item =>
+                !item.children
+                    ? item.path === location.pathname
+                    : item.children.some(child => child.path === location.pathname)
+            )
+            .map(item =>
+                !item.children
+                    ? item.key
+                    : item.children.find(child => child.path === location.pathname)?.key
+            )[0];
+
+        setMenu({
+            active: activeMenu || '',
+            expanded: '',
+            open: false,
+        });
+    }, []);
+
+    const handleActive = useCallback((select) => {
         if (select === 'report' || select === 'regulasie') {
-            if (isExpanded === select) {
-                if(isActive ==='list'||isActive ==='search')
-                    setExpanded('')
-                setOpen(!isOpen);
+            if (menu.expanded === select) {
+                setMenu(prevMenu => ({
+                    ...prevMenu,
+                    expanded: '',
+                    open: !prevMenu.open,
+                }));
             } else {
-                setExpanded(select);
-                setOpen(true);
+                setMenu(prevMenu => ({
+                    ...prevMenu,
+                    expanded: select,
+                    open: true,
+                }));
             }
         } else {
-            if (select === 'list' || select === 'search') {
-                setExpanded('');
-                setOpen(false);
-            }
-            setActive(select);
+            (select === 'list'||select==='search')?
+            setMenu({
+                active: select,
+                expanded: '',
+                open: false,
+            }):setMenu({
+                ...menu,
+                active: select,
+                open:true
+            });
         }
-    };
-    const handleNavigate = (select) => {
+    }, [menu.expanded]);
+
+    const handleNavigate = useCallback((select) => {
         const paths = {
             list: '/examination',
             search: '/search',
             sales: '/report/sales',
-            medicine: '/report/medicine',
+            medicine: '/report/medicines',
             pharmacy: '/regulations/pharmacy',
             diseaseList: '/regulations/disease-list',
             other: '/regulations/other',
         };
-
         navigate(paths[select]);
-    };
+    }, [navigate]);
+
     return (
-        <div className={`${styles.menu} ${show ? styles.menuShow : styles.menuHidden}`}>
-            <div
-                className={`${styles.menu_item} ${
-                    isActive === 'list' ? styles.active : ''
-                }`}
-                onClick={() =>{ handleActive('list'); handleNavigate('list');}}
-
-            >
-                Lập danh sách khám bệnh
-            </div>
-            <div
-                className={`${styles.menu_item} ${
-                    isActive === 'search' ? styles.active : ''
-                }`}
-                onClick={() => {handleActive('search'); handleNavigate('search');}}
-            >
-                Tra cứu bệnh nhân
-            </div>
-            <div
-                className={`${styles.menu_item} ${
-                   (isExpanded === 'report'&& isOpen) ? styles.expand : '' || (isActive === 'sales' ||  isActive === 'medicine' ) ? styles.active: ''
-                }`}
-                onClick={() => handleActive('report')}
-            >
-                Lập báo cáo
-            </div>
-            <div
-                className={`${styles.submenu} ${
-                    isOpen && isExpanded === 'report' ? styles.show : ''
-                }`}
-            >
-                <div
-                    className={`${styles.menu_item} ${
-                        isActive === 'sales' ? styles.active : ''
-                    }`}
-                    onClick={() => {handleActive('sales'); handleNavigate('sales');}}
-                >
-                    Lập báo cáo doanh thu
-                </div>
-                <div
-                    className={`${styles.menu_item} ${
-                        isActive === 'medicine' ? styles.active : ''
-                    }`}
-                    onClick={() => {handleActive('medicine'); handleNavigate('medicine');}}
-                >
-                    Lập báo cáo thuốc
-                </div>
-            </div>
-
-            <div
-                className={`${styles.menu_item} ${
-                    (isExpanded === 'regulasie' && isOpen)   ? styles.expand : '' || (isActive === 'diseaseList' ||  isActive === 'pharmacy' ||  isActive === 'other') ? styles.active: ''
-                }`}
-                onClick={() => handleActive('regulasie')}
-            >
-                Thay đổi quy định
-            </div>
-            <div
-                className={`${styles.submenu} ${
-                    isOpen && isExpanded === 'regulasie' ? styles.show : ''
-                }`}
-            >
-                <div
-                    className={`${styles.menu_item} ${
-                        isActive === 'pharmacy' ? styles.active : ''
-                    }`}
-                    onClick={() =>{ handleActive('pharmacy'); handleNavigate('pharmacy');}}
-                >
-                    Thay đổi kho thuốc
-                </div>
-                <div
-                    className={`${styles.menu_item} ${
-                        isActive === 'diseaseList' ? styles.active : ''
-                    }`}
-                    onClick={() => {handleActive('diseaseList'); handleNavigate('diseaseList');}}
-                >
-                    Thay đổi danh sách bệnh
-                </div>
-                <div
-                    className={`${styles.menu_item} ${
-                        isActive === 'other' ? styles.active : ''
-                    }`}
-                    onClick={() => {handleActive('other'); handleNavigate('other');}}
-                >
-                    Thay đổi khác
-                </div>
-            </div>
+        <div
+            className={clsx(
+                styles.menu,
+                show ? styles.menuShow : styles.menuHidden
+            )}
+        >
+            {menuItems.map((item) => (
+                <React.Fragment key={item.key}>
+                    <div
+                        className={clsx(
+                            styles.menu_item,
+                            !item.children && menu.active === item.key && styles.active,
+                            item.children && menu.expanded === item.key && menu.open && styles.expand,
+                            item.children && item.children.some(child => child.key === menu.active) && styles.active
+                        )}
+                        onClick={() => {
+                            handleActive(item.key);
+                            if (!item.children) {
+                                handleNavigate(item.key);
+                            }
+                        }}
+                    >
+                        {item.label}
+                    </div>
+                    {item.children && (
+                        <div
+                            className={clsx(
+                                styles.submenu,
+                                menu.open && menu.expanded === item.key && styles.show
+                            )}
+                        >
+                            {item.children.map((itemChildren) => (
+                                <div
+                                    key={itemChildren.key}
+                                    className={clsx(
+                                        styles.menu_item,
+                                        menu.active === itemChildren.key && styles.active
+                                    )}
+                                    onClick={() => {
+                                        handleActive(itemChildren.key);
+                                        handleNavigate(itemChildren.key);
+                                    }}
+                                >
+                                    {itemChildren.label}
+                                </div>
+                            ))}
+                        </div>
+                    )}
+                </React.Fragment>
+            ))}
         </div>
     );
 }
