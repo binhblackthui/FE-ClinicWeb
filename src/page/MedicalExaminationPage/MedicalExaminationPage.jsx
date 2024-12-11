@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import styles from './MedicalExaminationPage.module.css';
-import { findByDate, addPatient } from '../../service/service';
+import { findByDate, addPatient, deletePatientById } from '../../service/service';
 import { useNavigate } from 'react-router-dom';
 const MedicalExaminationPage = () => {
     const [data_table, setDataTable] = useState([]);
@@ -27,18 +27,31 @@ const MedicalExaminationPage = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            await addPatient(
+            // Gửi dữ liệu lên server
+            const response = await addPatient(
                 formData.fullname,
                 formData.sex,
                 formData.address,
                 formData.yearOfBirth
             );
+            console.log('Phản hồi từ server:', response.data);
+    
+            // Cập nhật danh sách bệnh nhân
             const updatedData = await findByDate(standard_today);
             setDataTable(updatedData.data);
+    
+            // Reset form
+            setFormData({
+                fullname: '',
+                yearOfBirth: 0,
+                address: '',
+                sex: '',
+            });
         } catch (error) {
             console.error('Lỗi khi thêm bệnh nhân:', error);
         }
     };
+    
 
    
     useEffect(() => {
@@ -59,13 +72,20 @@ const MedicalExaminationPage = () => {
     const [selectedRows, setSelectedRows] = useState(null); // Dòng được chọn
     const navigate = useNavigate(); // Sử dụng useNavigate
 
+    const handleDelete = async (id) =>{
+        try{
+            await deletePatientById(id)
+            setDataTable((data_table) => data_table.filter((patient) => patient.id !== id));
+        }catch(error){
+            console.error('Lỗi khi xóa:',error)
+        }
+    }
     const handleProfileCreation = () => {
         if (!selectedRows) {
             alert('Vui lòng chọn một bệnh nhân trước khi lập hồ sơ!');
             return;
         }
-        // Chuyển hướng đến trang /profile với thông tin bệnh nhân được chọn
-        navigate('/make', { state: selectedRows });
+        navigate('/make', { state: selectedRows });  // Truyền thông tin bệnh nhân qua state
     };
     const handlePay = () =>{
         if(!selectedRows){
@@ -140,7 +160,15 @@ const MedicalExaminationPage = () => {
             </form>
 
             <h1 className={styles.header}>Danh sách bệnh nhân</h1>
-            <table border="1" className={styles.table}>
+            <table border="1" style={{width: "100%"}}>
+                <colgroup>
+                <col style = {{width: "5%"}}/>
+                <col style = {{width: "25%"}}/>
+                <col style = {{width: "5%"}}/>
+                <col style = {{width: "10%"}}/>
+                <col style = {{width: "45%"}}/>
+                <col style = {{width: "5%"}}/>
+                </colgroup>
                 <thead>
                     <tr>
                         <th>ID</th>
@@ -166,6 +194,9 @@ const MedicalExaminationPage = () => {
                                 <td>{patient.sex}</td>
                                 <td>{patient.yearOfBirth}</td>
                                 <td>{patient.address}</td>
+                                <td>
+                                    <button onClick={() => handleDelete(patient.id)}>Xóa</button>
+                                </td>
                             </tr>
                         ))
                     ) : (

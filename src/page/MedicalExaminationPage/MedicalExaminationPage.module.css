@@ -39,17 +39,20 @@ button{
 }
 .table{
     margin-top: 20px;
-    width: 1000px;   
+    width: 950px;   
 }
 .makeExamination{
     font-size: 20px;
-    margin: 20px;
+    margin: 0px;
 }
 .label_input_container {
     display: flex;
 }
-td, tr{
+table,td, tr{
+    
     margin: 20px;
     padding: 20px;
     align-items: center;
+    border: 1px solid #333;
+    border-collapse: collapse;
 }

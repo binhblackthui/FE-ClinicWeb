@@ -14,6 +14,7 @@ const MakePage = () => {
     symptom: "",
     disease: "",
   });
+  const [selectedMedicine, setSelectedMedicine] = useState({});
 
   // Kiểm tra nếu patientData có sẵn trước khi gọi API
   useEffect(() => {
@@ -52,6 +53,7 @@ const MakePage = () => {
         const response = await findAll();
         if (Array.isArray(response.data)) {
           setDataTableMedicine(response.data);
+          console.log(response.data)
         } else {
           console.error("Dữ liệu trả về không phải là mảng");
         }
@@ -71,14 +73,22 @@ const MakePage = () => {
   const handleRemoveRow = (id) => {
     setRows(rows.filter((row) => row.id !== id));
   };
-
-  const handleSelectDrug = (id, selectedDrug) => {
-    setRows(
-      rows.map((row) =>
-        row.id === id ? { ...row, drug: selectedDrug } : row
-      )
-    );
+  const handleSelectDrug = (id, selectedDrugId) => {
+    const selectedDrug = data_table_medicine.find(drug => drug.idMedicine === selectedDrugId);
+  
+    if (selectedDrug) {
+      setSelectedMedicine((prev) => ({
+        ...prev,
+        [id]: {
+          id: selectedDrug.idMedicine, // Lưu id của thuốc
+          name: selectedDrug.nameOfMedicine,
+          unit: selectedDrug.unit, // Đơn vị
+          usage: selectedDrug.medicineUsage, // Cách dùng
+        },
+      }));
+    }
   };
+ 
 
   if (!patientData) {
     return (
@@ -91,55 +101,54 @@ const MakePage = () => {
 
   return (
     <div className={styles.container}>
-      <h1 className={styles.header}>Lập phiếu khám bệnh</h1>
-      <div style={{ display: "flex", alignItems: "center", gap: "50px" }}>
-        <label className={styles.makeExamination}>
-          <strong>Họ tên:</strong> {patientData.fullname}
-        </label>
-        <div style={{ display: "flex", alignItems: "center" }}>
-          <label className={styles.makeExamination} style={{ marginRight: "0px" }}>
-            <strong>Ngày khám: </strong>{" "}
-          </label>
-          <input
-            type="date"
-            className={styles.makeExamination}
-            name="dateexamination"
-            placeholder="ngày khám"
-            style={{ marginLeft: "0px" }}
-          />
-        </div>
-      </div>
-      <div style={{ display: "flex", alignItems: "center", gap: "20px" }}>
-        <div style={{ display: "flex", alignItems: "center" }}>
-          <label className={styles.makeExamination} style={{ margin: "0px", width: "150px" }}>
-            <strong>Triệu chứng: </strong>{" "}
-          </label>
-          <input
-            type="text"
-            className={styles.makeExamination}
-            name="symptoms"
-            placeholder="Triệu chứng"
-            style={{ marginLeft: "0px" }}
-            value={examinationResult.symptom} // Gán giá trị từ API
-          />
-        </div>
-        <div style={{ display: "flex", alignItems: "center" }}>
-          <label className={styles.makeExamination} style={{ margin: "1px", width: "150px" }}>
-            <strong>Chuẩn đoán : </strong>{" "}
-          </label>
-          <input
-            type="text"
-            className={styles.makeExamination}
-            name="diagnosis"
-            placeholder="Chẩn đoán"
-            style={{ marginLeft: "0px" }}
-            value={examinationResult.disease} // Gán giá trị từ API
-          />
-        </div>
-      </div>
-
       <button onClick={() => navigate("/examination")}>Quay lại</button>
-
+      <h1 className={styles.header}>Lập phiếu khám bệnh</h1>
+      <table>
+        <tr>
+          <td>
+            <label className={styles.makeExamination}>
+              <strong>Họ tên:</strong> {patientData.fullname}
+            </label>
+          </td>
+          <td>
+            <label>
+              <strong>Ngày khám: </strong>
+            </label>
+            <input
+              type="date"
+              name="dateexamination"
+              placeholder="ngày khám"
+              style={{ marginLeft: "0px" }}
+            />
+          </td>
+        </tr>
+  
+        <tr>
+          <td>
+            <label>
+              <strong>Triệu chứng: </strong>
+            </label>
+            <input
+              type="text"
+              name="symptoms"
+              placeholder="Triệu chứng"
+              defaultValue={examinationResult.symptom} // Gán giá trị từ API
+            />
+          </td>
+          <td>
+            <label>
+              <strong>Chuẩn đoán : </strong>
+            </label>
+            <input
+              type="text"
+              name="diagnosis"
+              placeholder="Chẩn đoán"
+              defaultValue={examinationResult.disease} // Gán giá trị từ API
+            />
+          </td>
+        </tr>
+      </table>
+  
       <div>
         <h2>Danh sách thuốc</h2>
         <table border="1" style={{ width: "100%", textAlign: "left" }}>
@@ -147,7 +156,9 @@ const MakePage = () => {
             <tr>
               <th>#</th>
               <th>Chọn thuốc</th>
-              <th>Hành động</th>
+              <th>Đơn vị</th>
+              <th>Cách dùng</th>
+              <th>Xóa</th>
             </tr>
           </thead>
           <tbody>
@@ -155,18 +166,21 @@ const MakePage = () => {
               <tr key={row.id}>
                 <td>{row.id}</td>
                 <td>
-                  <select
-                    value={row.drug}
-                    onChange={(e) => handleSelectDrug(row.id, e.target.value)}
-                  >
+                <select
+                    value={selectedMedicine[row.id]?.id || ""}  // Đảm bảo giá trị 'value' được cập nhật đúng
+                    onChange={(e) => handleSelectDrug(row.id, e.target.value)}  // Cập nhật giá trị thuốc khi chọn
+                    >
                     <option value="">-- Chọn thuốc --</option>
                     {data_table_medicine.map((drug) => (
-                      <option key={drug.idMedicine} value={drug.nameOfMedicine}>
+                        <option key={drug.idMedicine} value={drug.idMedicine}>
                         {drug.nameOfMedicine}
-                      </option>
+                        </option>
                     ))}
-                  </select>
+                    </select>
+                  
                 </td>
+                <td>{selectedMedicine[row.id]?.unit || ""}</td>
+                <td>{selectedMedicine[row.id]?.usage || ""}</td>
                 <td>
                   <button onClick={() => handleRemoveRow(row.id)}>Xóa</button>
                 </td>
