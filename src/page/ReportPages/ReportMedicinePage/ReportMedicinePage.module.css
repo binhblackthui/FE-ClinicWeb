@@ -1,0 +1,116 @@
+/* Container tổng */
+.container {
+    padding: 20px;
+    font-family: Arial, sans-serif;
+    background-color: #f8f9fa;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    max-width: 90%;
+    margin: 0 auto;
+    position: relative;
+    top: 10vh;
+    margin-bottom: 200px;
+}
+.header {
+    font-size: 32px;
+    font-weight: bold;
+    color: #007bff;
+    margin-bottom: 20px;
+    text-align: center;
+    
+}
+
+/* Form nhập tháng */
+.dateForm {
+    max-width: 300px;
+    display: flex;
+   
+    align-items: center; /* Căn giữa theo chiều ngang */
+    justify-content: center; /* Căn giữa theo chiều dọc */
+    margin: 0 auto; /* Đảm bảo căn giữa trên màn hình */
+    margin-bottom: 20px;
+    gap: 15px;
+}
+.inputForm{
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    align-items: center;
+
+}
+.inputField {
+    flex: 1;
+    min-width: 150px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 18px;
+    outline: none;
+    transition: border-color 0.3s;
+    margin-right: 10px;
+    
+}
+
+.inputField:focus {
+    border-color: #007bff;
+}
+.searchButton {
+    background-color: #007bff;
+    color: #ffffff;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 6px;
+    font-size: 18px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s, box-shadow 0.2s;
+    margin: auto;
+    /* Hiệu ứng đổ bóng mặc định */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Hiệu ứng khi di chuột */
+.searchButton:hover {
+    background-color: #0056b3;
+    transform: translateY(-3px);
+    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
+}
+
+/* Hiệu ứng khi nhấn */
+.searchButton:active {
+    background-color: #003f8c;
+    transform: translateY(0);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.error {
+    color: red;
+    font-size: 18px;
+    padding-top: 20px;
+    text-align: center; /* Căn chỉnh văn bản sang trái */
+    flex: 1;
+}
+/* Bảng kết quả tìm kiếm */
+.resultTable {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+
+;
+}
+
+.resultTable th,
+.resultTable td {
+    border: 1px solid #ddd;
+    text-align: center;
+    padding: 10px;
+    font-size: 18px;
+}
+
+.resultTable th {
+    background-color: #007bff;
+    color: #fff;
+    font-weight: bold;
+}
+
+

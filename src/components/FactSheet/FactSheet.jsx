@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import styles from './FactSheet.module.css';
 import { getExaminationResult, getPrescription } from '../../service/service';
-
+import { formatDate } from '../../helper/stringUtils';
 function FactSheet({ patient }) {
     const [isExaminationResult, setExaminationResult] = useState({});
     const [listMedicine, setMedicine] = useState([]);
@@ -42,7 +42,7 @@ function FactSheet({ patient }) {
                     <p>Địa chỉ: {patient.address}</p>
                 </dir>
                 <div className={styles.infoItem}>
-                    <p>Ngày khám: {patient.date} </p>
+                    <p>Ngày khám: {formatDate(patient.date)} </p>
                     <p>Triệu chứng: {isExaminationResult.symptom}</p>
                     <p>Chuẩn đoán: {isExaminationResult.disease}</p>
                 </div>
