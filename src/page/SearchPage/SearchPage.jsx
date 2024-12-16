@@ -18,7 +18,7 @@ const SearchPage = () => {
         const { name, value } = e.target;
         setSearchParams({ ...searchParams, [name]: value });
     };
-    const handleInfo = (patient) => {
+    const handleInfo = (patient)  => {
         setPatient(patient);
         setShow(true);
     }

@@ -1,5 +1,6 @@
 import axios from "axios";
 
+
 // Hàm lấy token từ localStorage (hoặc nơi bạn lưu trữ token)
 const getAuthToken = () => {
     return localStorage.getItem('token');  // Hoặc từ nơi bạn lưu trữ token
@@ -13,6 +14,72 @@ export const loginAccount= (username,password)=>{
     });
 }
 // Các API request với token trong header
+
+export const createPatient = (id, name, sex, address, yearOfBirth,date)=> {
+    return axios.post("/api/patient",{id, name, sex, address,yearOfBirth,date},{
+        headers:{
+            'Authorization':`Bearer ${getAuthToken()}`
+        }
+    })
+}
+export const findByDate = (date) => {
+    return axios.get("/api/patients", {
+        params: {
+            date: date, // Gửi date dưới dạng query parameter
+        },
+    },{
+        headers:{
+            'Authorization':`Bearer ${getAuthToken()}`
+        }
+    });
+};
+export const addPatient = (fullname, sex, address, yearOfBirth) =>{
+    return axios.post("/api/patients", {fullname, sex, address, yearOfBirth},{
+        headers:{
+            'Authorization':`Bearer ${getAuthToken()}`
+        }
+    })
+}
+export const deletePatientById = (id) => {
+    return axios.delete(`/api/patients/${id}`,
+    {
+        headers:{
+            'Authorization':`Bearer ${getAuthToken()}`
+        }
+    });
+};
+export const addExaminationResults = (examinationResults) => {
+    return axios.post("/api/examinationResults", examinationResults,{
+        headers:{
+            'Authorization':`Bearer ${getAuthToken()}`
+        }
+    });
+};
+
+
+
+export const getPatients = ()=>{
+    return axios.get("/api/patients",{
+        headers:{
+            'Authorization':`Bearer ${getAuthToken()}`
+        }
+    });
+}
+export const getInvoice = (id) =>{
+    return axios.get(`api/invoice/${id}`,{
+        headers:{
+            'Authorization':`Bearer ${getAuthToken()}`
+        }
+    });
+}
+
+
+
+
+
+
+
+
 export const getExaminationResult = (id) => {
     return axios.get("/api/examinationResults/" + id, {
         headers: {

@@ -1,5 +1,5 @@
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
-import Homepage from './page/Homepage/Hompage';
+import Homepage from './page/Homepage/Homepage';
 import SearchPage from './page/SearchPage/SearchPage';
 import ReportSalePage from './page/ReportPages/ReportSalePage/ReportSalePage';
 import ReportMedicinePage from './page/ReportPages/ReportMedicinePage/ReportMedicinePage';
@@ -7,6 +7,8 @@ import PharmacyPage from './page/RegulationPages/PharmacyPage/PharmacyPage';
 import DiseaseListPage from './page/RegulationPages/DiseaseListPage/DiseaseListPage';
 import OtherRegulationsPage from './page/RegulationPages/OtherRegulationsPage/OtherRegulationsPage';
 import MedicalExaminationPage from './page/MedicalExaminationPage/MedicalExaminationPage';
+import MakePage from './page/MedicalExaminationPage/make';
+import PayPage from './page/MedicalExaminationPage/pay';
 import LoginPage from './page/LoginPage/LoginPage';
 import Headers from './components/Header/Header';
 import './App.css';
@@ -26,6 +28,8 @@ const routes = createBrowserRouter([
         children: [
             { path: '', element: <Homepage /> },
             { path: 'examination', element: <MedicalExaminationPage /> },
+            {path : 'make', element: <MakePage />},
+            {path : 'pay', element: <PayPage />},
             { path: 'search', element: <SearchPage /> },
             { path: 'report/sales', element: <ReportSalePage /> },
             { path: 'report/medicines', element: <ReportMedicinePage /> },
