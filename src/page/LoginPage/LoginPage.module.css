@@ -1,4 +1,4 @@
-.Body{
+.container{
     position: fixed;
     min-width: 100%;
     min-height: 100%;
@@ -6,7 +6,15 @@
     justify-content: center;
     align-items: center; /* Căn giữa nội dung theo cả hai chiều */
 }
-.container {
+.header{
+    font-size: 32px;
+    font-weight: bold;
+    color: #4A90E2;
+    margin-bottom: 30px;
+    text-align: center;
+    text-transform: uppercase;
+}
+.loginForm{
     padding: 30px;
     font-family: Arial, sans-serif;
     background-color: #ffffff;
@@ -17,50 +25,31 @@
     margin: 0 auto;
     position: relative;
     margin: auto;
+}
+
+.inputForm{
+    flex: 1;
+    display: flex;
     
+    /* Đảm bảo căn giữa trên màn hình */
+    margin-bottom: 20px;
+    gap: 15px;
+    flex-direction: column;
 }
-
-/* Tiêu đề */
-.header {
-    font-size: 32px;
+.inputForm label{
+    font-size: 18px;
     font-weight: bold;
-    color: #4A90E2;
-    margin-bottom: 30px;
-    text-align: center;
-    text-transform: uppercase;
+    color: black;
+    margin-bottom: 5px;
+    text-align: left;
 }
 
-/* Form đăng ký thuốc */
-.dataForm {
-    max-width: 100%;
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-}
 
-/* Khung input */
-.inputForm {
-    display: flex;
-    flex-direction: column;
-    flex: 1;
-    margin-bottom: 15px;
-}
-
-.inputForm label {
-    font-size: 20px;
-    font-weight: 600;
-    color: #333;
-    margin-bottom: 8px;
-}
-
-/* Các trường nhập liệu */
 .inputField {
-    flex: 1;
-    min-width: 150px;
+    font-size: 18px;
     padding: 12px;
     border: 1px solid #ccc;
     border-radius: 6px;
-    font-size: 18px;
     outline: none;
     transition: border-color 0.3s, box-shadow 0.3s;
     margin-bottom: 5px;
@@ -72,17 +61,21 @@
 }
 
 /* Nút đăng ký */
+
+
 .button {
-    padding: 12px 20px;
     background-color: #4A90E2;
     color: white;
-    font-size: 16px;
-    font-weight: bold;
+    padding: 14px 20px;
+    margin: 8px 0;
     border: none;
-    border-radius: 6px;
+    border-radius: 4px;
     cursor: pointer;
-    transition: background-color 0.3s ease;
-    margin-top: 20px;
+    width: 100%;
+    font-size: 18px;
+    font-weight: bold;
+    text-transform: uppercase;
+    transition: background-color 0.3s;
 }
 
 .button:hover {

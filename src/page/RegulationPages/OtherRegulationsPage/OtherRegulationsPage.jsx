@@ -97,7 +97,7 @@ function OtherRegulationsPage() {
                             {error.examinationPrice}
                         </span>
                     </div>
-                    <button onClick={handleUpdate}>Cập nhật</button>
+                    <button onClick={handleUpdate} className={styles.button}>Cập nhật</button>
                 </div>
             </div>
         </div>

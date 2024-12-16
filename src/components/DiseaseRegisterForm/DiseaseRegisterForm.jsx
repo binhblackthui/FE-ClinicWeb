@@ -14,11 +14,18 @@ function DiseaseRegisterForm({data, setData}) {
     const handleBlur = (e) => {
         if (!e.target.value) {
             setError('Vui lòng nhập tên bệnh!');
-        } else {
+        }
+        else if(data.some(disease => disease.name.toLowerCase() === e.target.value.toLowerCase())){
+            setError('Tên bệnh đã tồn tại!');
+        }
+         else {
             setError('');
         }
     };
     const handleRegister = async () => {
+        if (error) {
+            return;
+        }
         if (!name) {
             setError('Vui lòng nhập tên bệnh!');
             return;
@@ -55,7 +62,7 @@ function DiseaseRegisterForm({data, setData}) {
                         />
                         <span className={styles.error}>{error}</span>
                     </div>
-                    <button onClick={handleRegister}>Đăng ký</button>
+                    <button onClick={handleRegister} className={styles.button}>Đăng ký</button>
                 </div>
             </div>
         </>

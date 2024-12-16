@@ -26,11 +26,11 @@ function Menu({ show }) {
         },
         {
             key: 'regulasie',
-            label: 'Thay đổi quy định',
+            label: 'Cài đặt quy định',
             children: [
-                { key: 'pharmacy', label: 'Thay đổi kho thuốc', path: '/regulations/pharmacy' },
-                { key: 'diseaseList', label: 'Thay đổi danh sách bệnh', path: '/regulations/disease-list' },
-                { key: 'other', label: 'Thay đổi khác', path: '/regulations/other' },
+                { key: 'pharmacy', label: 'Cài đặt thuốc', path: '/regulations/pharmacy' },
+                { key: 'diseaseList', label: 'Cài đặt bệnh', path: '/regulations/disease-list' },
+                { key: 'other', label: 'Cài đặt khác', path: '/regulations/other' },
             ],
         },
     ], []);
@@ -53,7 +53,7 @@ function Menu({ show }) {
             expanded: '',
             open: false,
         });
-    }, []);
+    }, [show]);
 
     const handleActive = useCallback((select) => {
         if (select === 'report' || select === 'regulasie') {

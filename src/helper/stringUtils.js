@@ -22,3 +22,7 @@ export const isInt = (value) => {
 export const upperFirstLetter = (str) => {
     return str.charAt(0).toUpperCase() + str.slice(1);
 }
+
+export const upperFirstLetterEachWord = (str) => {
+    return str.split(' ').map(word => upperFirstLetter(word)).join(' ');
+}

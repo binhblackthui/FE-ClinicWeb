@@ -64,7 +64,7 @@
 }
 
 /* Nút đăng ký */
-button {
+.button button {
     padding: 12px 20px;
     background-color: #4A90E2;
     color: white;
@@ -77,7 +77,7 @@ button {
     margin-top: 20px;
 }
 
-button:hover {
+.button button:hover {
     background-color: #357ABD;
 }
 

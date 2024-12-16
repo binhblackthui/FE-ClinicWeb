@@ -22,7 +22,7 @@ function MedicineRegisterForm({ data, setData }) {
     };
     const handleChange = (e) => {
         const { name, value } = e.target;
-        if (!value || (name === 'price' && isNaN(parseCurrency(value)))) {
+        if (!value || (name === 'price' && (isNaN(parseCurrency(value))|| parseCurrency(value) < 1000))) {
             setError({
                 ...error,
                 [name]: validateMedicine(name),
@@ -54,7 +54,10 @@ function MedicineRegisterForm({ data, setData }) {
         if (Object.values(errors).some(err => err !== '')) {
             return;
         }
-
+        if(data.some(med => med.nameOfMedicine.toLowerCase() === medicine.nameOfMedicine.toLowerCase())){
+            setError({...error, nameOfMedicine: 'Tên thuốc đã tồn tại!'});
+            return;
+        }
         try {
             const res = await createMedicine(
                 upperFirstLetter(medicine.nameOfMedicine),
@@ -136,7 +139,7 @@ function MedicineRegisterForm({ data, setData }) {
                     />
                     <span className={styles.error}>{error.medicineUsage}</span>
                 </div>
-                <button onClick={handleRegister}>Đăng ký</button>
+                <button onClick={handleRegister} className={styles.button}>Đăng ký</button>
             </div>
         </div>
     );

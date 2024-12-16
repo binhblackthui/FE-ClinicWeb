@@ -6,15 +6,7 @@ import PharmacyPage from '../page/RegulationPages/PharmacyPage/PharmacyPage.jsx'
 import DiseaseListPage from '../page/RegulationPages/DiseaseListPage/DiseaseListPage.jsx';
 import OtherRegulationsPage from '../page/RegulationPages/OtherRegulationsPage/OtherRegulationsPage.jsx';
 import MedicalExaminationPage from '../page/MedicalExaminationPage/MedicalExaminationPage.jsx';
-const routes = [
-    { path: '/home', component: Homepage },
-    {path: '/examination', component: MedicalExaminationPage},
-    { path: '/search', component: SearchPage },
-    { path: '/report/sales', component: ReportSalePage },
-    { path: '/report/medicines', component: ReportMedicinePage },
-    { path: '/regulations/pharmacy', component: PharmacyPage },
-    { path: '/regulations/disease-list', component: DiseaseListPage },
-    { path: '/regulations/other', component: OtherRegulationsPage },
-];
+import LoginPage from '../page/LoginPage/LoginPage.jsx';
+import Headers from '../components/Header/Header.jsx';
 
 export default routes;

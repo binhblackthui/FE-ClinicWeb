@@ -22,7 +22,7 @@ function MedicineChangeForm({
     };
     const handleChange = (e) => {
         const { name, value } = e.target;
-        if (!value || (name === 'price' && isNaN(parseCurrency(value)))) {
+        if (!value || (name === 'price' && (isNaN(parseCurrency(value))|| parseCurrency(value) < 1000))) {
             setError({
                 ...error,
                 [name]: validateMedicine(name),
@@ -43,18 +43,11 @@ function MedicineChangeForm({
         }
     };
     const handleUpdate = async () => {
-        const errors = {};
-        if (!selectedMedicine.nameOfMedicine) {
-            errors.nameOfMedicine = validateMedicine('nameOfMedicine');
-        }
-        if (isNaN(selectedMedicine.price)) {
-            errors.price = validateMedicine('price');
-        }
-        if (!selectedMedicine.medicineUsage) {
-            errors.medicineUsage = validateMedicine('medicineUsage');
-        }
-        setError(errors);
-        if (Object.values(errors).some(err => err !== '')) {
+        if(Object.values(error).some(err => err !== '')){
+            return;
+        }   
+        if(data.some(med => med.nameOfMedicine.toLowerCase() === selectedMedicine.nameOfMedicine.toLowerCase())){
+            setError({...error, nameOfMedicine: 'Tên thuốc đã tồn tại!'});
             return;
         }
         try {

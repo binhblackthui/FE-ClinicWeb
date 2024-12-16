@@ -11,23 +11,29 @@ function DiseaseChangeForm({
 }) {
     const [error, setError] = useState('');
     const handleChange = (e) => {
+        
         setSelectedDisease({
             ...selectedDisease,
             [e.target.name]: e.target.value,
         });
     };
-    const handleBlur = async (e) => {
+    const handleBlur = (e) => {
+        console.log(data.some(disease => disease.name.toLowerCase() === e.target.value.toLowerCase()));
         if (e.target.value === '') {
             setError('Vui lòng nhập tên bệnh!');
-        } else {
+        }else if(data.some(disease => disease.name.toLowerCase() === e.target.value.toLowerCase())){
+            setError('Tên bệnh đã tồn tại!');
+        }
+        else {
             setError('');
         }
     };
     const handleUpdate = async () => {
-        if (selectedDisease.name === '') {
-            setError('Vui lòng nhập tên bệnh!');
+        if (error) {
             return;
         }
+  
+
         try {
             await updateDisease(selectedDisease.id, selectedDisease.name);
             const index = data.findIndex(

@@ -36,6 +36,7 @@ function ReportMedicinePage() {
             confirm.log(e);
         }
     };
+
     return (
         <>
             <div className={styles.container}>

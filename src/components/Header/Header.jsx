@@ -3,18 +3,24 @@ import Menu from '../Menu/Menu';
 import menuIcon from '../../assets/icons/svgs/menuIcon.svg';
 import homeIcon from '../../assets/icons/svgs/homeIcon.svg';
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../AuthContext/AuthContext';
+import { Outlet, useNavigate } from 'react-router-dom';
 function Header() {
+    const { logout } = useAuth();
     const [show, setShow] = useState(false);
     const [reset, setReset] = useState(false);
     const navigate = useNavigate();
     const handleNavigate = (select) => {
         setReset(true);
         if(select === 'home'){
-            navigate('/home');
+            navigate('/');
             setShow(false);
         }
     };
+    const handleLogout = () => {
+        logout();
+        navigate('/login');
+    }
     return (
         <>
 
@@ -30,12 +36,13 @@ function Header() {
                 </ul>
                 <ul className={styles.nav_list}>
                     <li>
-                        <button className={styles.button}>Đăng xuất</button>
+                        <button onClick={handleLogout} className={styles.button}>Đăng xuất</button>
                     </li>
                 </ul>
             </div>
             
             <Menu show={show} reset={reset} />
+            <Outlet/>
         </>
     );
 }
