@@ -1,5 +1,6 @@
 import styles from './MedicineRegisterForm.module.css';
 import { useState } from 'react';
+import { notification } from 'antd';
 import { createMedicine } from '../../service/service';
 import { formatCurrency, parseCurrency,upperFirstLetter, isInt} from '../../helper/stringUtils';
 
@@ -67,10 +68,14 @@ function MedicineRegisterForm({ data, setData }) {
             );
 
             if (res.status === 200) {
-                alert('Đăng ký thành công');
+                notification.success({ message: 'Đăng ký thành công',
+                description: 'Đã thêm thuốc mới vào hệ thống' 
+                 });
                 setData([...data, res.data]);
             } else {
-                alert('Đăng ký thất bại');
+                notification.error({ message: 'Đăng ký thất bại',
+                description: 'Vui lòng thử lại sau'
+                });
             }
             setMedicine({
                 nameOfMedicine: '',

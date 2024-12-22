@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { notification } from 'antd';
 import styles from './DiseaseRegisterForm.module.css';
 import { createDisease } from '../../service/service';
 function DiseaseRegisterForm({data, setData}) {
@@ -35,13 +36,19 @@ function DiseaseRegisterForm({data, setData}) {
             if(response.status === 200){
                 setData([...data, response.data]);
                 setName('');
-                alert('Đăng kí bệnh thành công');
+                notification.success({
+                    message: 'Đăng kí bệnh thành công',
+                    description: 'Bệnh đã được thêm vào danh sách'
+                });
             }
         }
         catch(error)
         {
             console.log(error);
-            alert('Đăng kí bệnh thất bại');
+            notification.error({
+                message: 'Đăng kí bệnh thất bại',
+                description: 'Vui lòng thử lại sau'
+            });
         }   
     }
     return (

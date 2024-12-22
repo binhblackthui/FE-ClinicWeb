@@ -1,7 +1,9 @@
 import { useState } from 'react';
+import { notification } from 'antd';
 import styles from './MedicineChangeForm.module.css';
 import { formatCurrency, parseCurrency,upperFirstLetter } from '../../helper/stringUtils';
 import { updateMedicine, deleteMedicine} from '../../service/service';
+
 function MedicineChangeForm({
     selectedMedicine,
     setSelectedMedicine,
@@ -59,14 +61,20 @@ function MedicineChangeForm({
                 selectedMedicine.medicineUsage
             );
             if (res.status === 200) {
-                alert('Cập nhật thành công');
+                notification.success({
+                    message: 'Cập nhật thành công',
+                    description: 'Thông tin thuốc đã được cập nhật',
+                });
                 const index = data.findIndex(
                     (item) => item.idMedicine === selectedMedicine.idMedicine
                 );
                 data[index] = selectedMedicine;
                 setData([...data]);
             } else {
-                alert('Cập nhật thất bại');
+                notification.error({
+                    message: 'Cập nhật thất bại',
+                    description: 'Vui lòng thử lại sau',
+                });
             }
         } catch (error) {
             alert('Cập nhật thất bại');
@@ -77,7 +85,10 @@ function MedicineChangeForm({
         try {
             const res = await deleteMedicine(selectedMedicine.idMedicine);
             if (res.status === 200) {
-                alert('Xóa thành công');
+                notification.success({
+                    message: 'Xóa thành công',
+                    description: 'Thông tin thuốc đã được xóa',
+                });
                 const index = data.findIndex(
                     (item) => item.idMedicine === selectedMedicine.idMedicine
                 );
@@ -88,7 +99,10 @@ function MedicineChangeForm({
                 alert('Xóa thất bại');
             }
         } catch (error) {
-            alert('Xóa thất bại');
+            notification.error({
+                message: 'Xóa thất bại',
+                description: 'Vui lòng thử lại sau',
+            });
             console.log(error);
         }
     };

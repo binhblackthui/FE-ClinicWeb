@@ -1,4 +1,4 @@
-/* Container tổng */
+/* 
 .container {
     padding: 20px;
     font-family: Arial, sans-serif;
@@ -11,7 +11,7 @@
     top: 10vh;
 }
 
-/* Tiêu đề chính */
+
 .header {
     font-size: 24px;
     font-weight: bold;
@@ -25,10 +25,10 @@
     margin-bottom: 70px;
 }
 input, button {
-    margin-bottom: 10px; /* Khoảng cách dưới mỗi trường */
+    margin-bottom: 10px; 
 }
 input {
-    width: 300px; /* Đặt chiều ngang của trường nhập liệu là 300px */
+    width: 300px; 
 }
 .input_sex{
     width: 30px;
@@ -55,4 +55,4 @@ table,td, tr{
     align-items: center;
     border: 1px solid #333;
     border-collapse: collapse;
-}
+} */

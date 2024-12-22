@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { notification } from 'antd';
 import { updateDisease, deleteDisease } from '../../service/service';
 import styles from './DiseaseChangeForm.module.css';
 
@@ -41,9 +42,15 @@ function DiseaseChangeForm({
             );
             data[index] = selectedDisease;
             setData([...data]);
-            alert('Cập nhật thành công!');
+            notification.success({
+                message: 'Cập nhật thành công',
+                description: 'Thông tin bệnh đã được cập nhật',
+            });
         } catch (error) {
-            alert('Cập nhật thất bại!');
+            notification.error({
+                message: 'Cập nhật thất bại',
+                description: 'Vui lòng thử lại sau',
+            });
             console.log(error);
         }
     };
@@ -57,9 +64,15 @@ function DiseaseChangeForm({
             setData([...data]);
             setSelectedDisease({});
             setShow(false);
-            alert('Xóa thành công!');
+            notification.success({
+                message: 'Xóa thành công',
+                description: 'Bệnh đã được xóa',
+            });
         } catch (error) {
-            alert('Xóa thất bại!');
+            notification.error({
+                message: 'Xóa thất bại',
+                description: 'Vui lòng thử lại sau',
+            });
             console.log(error);
         }
     };

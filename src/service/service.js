@@ -13,28 +13,29 @@ export const loginAccount= (username,password)=>{
         password:password
     });
 }
+
+export const postIntrospection = (token) => {
+    return axios.post("/api/introspect", {
+        token: token,
+        authenticated: true 
+    });
+}
 // Các API request với token trong header
 
-export const createPatient = (id, name, sex, address, yearOfBirth,date)=> {
-    return axios.post("/api/patient",{id, name, sex, address,yearOfBirth,date},{
-        headers:{
-            'Authorization':`Bearer ${getAuthToken()}`
-        }
-    })
-}
+
 export const findByDate = (date) => {
-    return axios.get("/api/patients", {
-        params: {
-            date: date, // Gửi date dưới dạng query parameter
-        },
-    },{
+    return axios.get("/api/patients?date="+date,{
         headers:{
             'Authorization':`Bearer ${getAuthToken()}`
         }
     });
 };
 export const addPatient = (fullname, sex, address, yearOfBirth) =>{
-    return axios.post("/api/patients", {fullname, sex, address, yearOfBirth},{
+    return axios.post("/api/patients", {
+        fullname: fullname,
+        sex: sex, 
+        address: address, 
+        yearOfBirth: yearOfBirth},{
         headers:{
             'Authorization':`Bearer ${getAuthToken()}`
         }

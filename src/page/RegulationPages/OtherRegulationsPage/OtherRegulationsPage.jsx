@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { notification } from 'antd';
 import styles from './OtherRegulationsPage.module.css';
 import { getConfigration, updateConfigration } from '../../../service/service';
 import { parseCurrency,formatCurrency, isInt} from '../../../helper/stringUtils';
@@ -58,9 +59,15 @@ function OtherRegulationsPage() {
                 config.maxPatient,
                 config.examinationPrice
             );
-            alert('Cập nhật thành công!');
+            notification.success({
+                message: 'Cập nhật thành công',
+                description: 'Các quy định đã được cập nhật',
+            });
         } catch (error) {
-            alert('Cập nhật thất bại!');
+            notification.error({
+                message: 'Cập nhật thất bại',
+                description: 'Vui lòng thử lại sau',
+            });
             console.log(error);
         }
     };

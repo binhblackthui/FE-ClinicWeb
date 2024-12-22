@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../components/AuthContext/AuthContext';
 import styles from './LoginPage.module.css';
 import { loginAccount}  from '../../service/service';
+import {notification} from 'antd';
 function LoginPage() {
     const { login } = useAuth();
     const [account, setAccount] = useState({
@@ -41,14 +42,20 @@ function LoginPage() {
         }
         try {
             const response = await loginAccount(account.username, account.password);
-            if (response.status === 200) {
-                alert('Đăng nhập thành công');
-            }
+    
             login(response.data.token);
+            notification.success({
+                message: 'Đăng nhập thành công',
+                description: 'Chào mừng bạn đến với hệ thống quản lý phòng mạch tư nhân',
+            });
             navigate('/');
         } catch (error) {
             console.log(error);
-            alert('Đăng nhập thất bại');
+            notification.error({
+                message: 'Đăng nhập thất bại',
+                description: 'Vui lòng kiểm tra lại thông tin đăng nhập',
+                size: 'large',
+            });
         }
     };
     return (

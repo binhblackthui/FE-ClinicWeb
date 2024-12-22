@@ -13,6 +13,9 @@ import LoginPage from './page/LoginPage/LoginPage';
 import Headers from './components/Header/Header';
 import './App.css';
 import PrivateRoute from './components/PrivateRoute/PrivateRoute';
+import { useEffect } from 'react';
+import { useAuth } from './components/AuthContext/AuthContext';
+import { postIntrospection } from './service/service';
 const routes = createBrowserRouter([
     {
         path: '/login',
@@ -42,7 +45,21 @@ const routes = createBrowserRouter([
 
 
 function App() {
+    const isAuthenticated = useAuth();
+    useEffect(() => async () => {
+        if (isAuthenticated) {
+            try {
+            const response = await postIntrospection(localStorage.getItem('token'));
+            if (response.data.valid === false) {
+                localStorage.removeItem('token');
+            }}
+            catch (error) {
+                console.log(error); 
+            }
+        } 
+    }, []);
     return <RouterProvider router={routes} />;
 }
 
 export default App;
+
