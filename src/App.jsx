@@ -8,7 +8,7 @@ import DiseaseListPage from './page/RegulationPages/DiseaseListPage/DiseaseListP
 import OtherRegulationsPage from './page/RegulationPages/OtherRegulationsPage/OtherRegulationsPage';
 import MedicalExaminationPage from './page/MedicalExaminationPage/MedicalExaminationPage';
 import MakePage from './page/MedicalExaminationPage/make';
-import PayPage from './page/MedicalExaminationPage/pay';
+import PayPage from './page/Pay/pay';
 import LoginPage from './page/LoginPage/LoginPage';
 import Headers from './components/Header/Header';
 import './App.css';

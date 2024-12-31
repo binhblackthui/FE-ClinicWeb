@@ -15,6 +15,7 @@ function Menu({ show }) {
 
     const menuItems = useMemo(() => [
         { key: 'list', label: 'Lập danh sách khám bệnh', path: '/examination' },
+        { key: 'pay', label: 'Thanh Toán', path:'/pay'},
         { key: 'search', label: 'Tra cứu bệnh nhân', path: '/search' },
         {
             key: 'report',
@@ -87,6 +88,7 @@ function Menu({ show }) {
     const handleNavigate = useCallback((select) => {
         const paths = {
             list: '/examination',
+            pay:'/pay',
             search: '/search',
             sales: '/report/sales',
             medicine: '/report/medicines',
