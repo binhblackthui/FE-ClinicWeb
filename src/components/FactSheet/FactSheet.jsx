@@ -35,16 +35,16 @@ function FactSheet({ patient }) {
             <h1 className={styles.header}>Phiếu kết quả</h1>
             <div className={styles.info}>
                 <dir className={styles.infoItem}>
-                    <p>ID: {patient.id}</p>
-                    <p>Họ và tên: {patient.fullname}</p>
-                    <p>Giới tính: {patient.sex}</p>
-                    <p>Năm sinh: {patient.yearOfBirth}</p>
-                    <p>Địa chỉ: {patient.address}</p>
+                    <p><strong>ID: </strong>{patient.id}</p>
+                    <p><strong>Họ và tên: </strong>{patient.fullname}</p>
+                    <p><strong>Giới tính: </strong>{patient.sex}</p>
+                    <p><strong>Năm sinh: </strong>{patient.yearOfBirth}</p>
+                    <p><strong>Địa chỉ: </strong>{patient.address}</p>
                 </dir>
                 <div className={styles.infoItem}>
-                    <p>Ngày khám: {formatDate(patient.date)} </p>
-                    <p>Triệu chứng: {isExaminationResult.symptom}</p>
-                    <p>Chuẩn đoán: {isExaminationResult.disease}</p>
+                    <p><strong>Ngày khám:</strong> {formatDate(patient.date)} </p>
+                    <p><strong>Triệu chứng:</strong> {isExaminationResult.symptom}</p>
+                    <p><strong>Chuẩn đoán:</strong> {isExaminationResult.disease}</p>
                 </div>
             </div>
             <h1 className={styles.header}>Phiếu thuốc</h1>

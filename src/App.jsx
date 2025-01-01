@@ -13,10 +13,7 @@ import LoginPage from './page/LoginPage/LoginPage';
 import Headers from './components/Header/Header';
 import './App.css';
 import PrivateRoute from './components/PrivateRoute/PrivateRoute';
-import { useEffect } from 'react';
-import { postIntrospection } from './service/service';
-import { useAuth } from './components/AuthContext/AuthContext';
-import { notification } from 'antd';
+
 const routes = createBrowserRouter([
     {
         path: '/login',

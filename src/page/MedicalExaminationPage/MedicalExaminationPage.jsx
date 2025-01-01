@@ -1,6 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import styles from './MedicalExaminationPage.module.css';
-import { findByDate, addPatient, deletePatientById } from '../../service/service';
+import {
+    findByDate,
+    addPatient,
+    deletePatientById,
+} from '../../service/service';
 import { useNavigate } from 'react-router-dom';
 const MedicalExaminationPage = () => {
     const [data_table, setDataTable] = useState([]);
@@ -8,7 +12,7 @@ const MedicalExaminationPage = () => {
         fullname: '',
         yearOfBirth: 0,
         address: '',
-        sex: '',    
+        sex: '',
     });
     const today = new Date();
     const year = today.getFullYear();
@@ -35,11 +39,11 @@ const MedicalExaminationPage = () => {
                 formData.yearOfBirth
             );
             console.log('Phản hồi từ server:', response.data);
-    
+
             // Cập nhật danh sách bệnh nhân
             const updatedData = await findByDate(standard_today);
             setDataTable(updatedData.data);
-    
+
             // Reset form
             setFormData({
                 fullname: '',
@@ -51,9 +55,7 @@ const MedicalExaminationPage = () => {
             console.error('Lỗi khi thêm bệnh nhân:', error);
         }
     };
-    
 
-   
     useEffect(() => {
         const fetchData = async () => {
             try {
@@ -64,7 +66,10 @@ const MedicalExaminationPage = () => {
                     console.error('Dữ liệu trả về không phải là mảng');
                 }
             } catch (error) {
-                console.error('Lỗi khi gọi API:', error.response?.data || error.message);
+                console.error(
+                    'Lỗi khi gọi API:',
+                    error.response?.data || error.message
+                );
             }
         };
         fetchData();
@@ -72,102 +77,124 @@ const MedicalExaminationPage = () => {
     const [selectedRows, setSelectedRows] = useState(null); // Dòng được chọn
     const navigate = useNavigate(); // Sử dụng useNavigate
 
-    const handleDelete = async (id) =>{
-        try{
-            await deletePatientById(id)
-            setDataTable((data_table) => data_table.filter((patient) => patient.id !== id));
-        }catch(error){
-            console.error('Lỗi khi xóa:',error)
+    const handleDelete = async (id) => {
+        try {
+            await deletePatientById(id);
+            setDataTable((data_table) =>
+                data_table.filter((patient) => patient.id !== id)
+            );
+        } catch (error) {
+            console.error('Lỗi khi xóa:', error);
         }
-    }
+    };
     const handleProfileCreation = () => {
         if (!selectedRows) {
             alert('Vui lòng chọn một bệnh nhân trước khi lập hồ sơ!');
             return;
         }
-        navigate('/make', { state: selectedRows });  // Truyền thông tin bệnh nhân qua state
+        navigate('/make', { state: selectedRows }); // Truyền thông tin bệnh nhân qua state
     };
-    const handlePay = () =>{
-        if(!selectedRows){
-            alert('Vui lòng chọn một bệnh nhân trước khi thanh toán');
-            return;
-        }
-        navigate('/pay', {state: selectedRows});
-    }
+
     return (
         <div className={styles.container_make}>
-            <h2 className={styles.header}>Thêm bệnh nhân</h2>
-            <form onSubmit={handleSubmit}>
-                <div>
-                    <label htmlFor="fullname" className={styles.dataField_make}>Họ và tên: </label>
-                    <input className={styles.input_make}
-                        type="text"
-                        id="fullname"
-                        name="fullname"
-                        value={formData.fullname}
-                        onChange={handleChange}
-                        placeholder="Họ và tên"
-                    />
-                </div>
-                <div>
-                    <label htmlFor="yearOfBirth" className={styles.dataField_make}>Năm sinh: </label>
-                    <input className={styles.input_make}
-                        type="number"
-                        id="yearOfBirth"
-                        name="yearOfBirth"
-                        value={formData.yearOfBirth}
-                        onChange={handleChange}
-                        placeholder="Năm sinh"
-                    />
-                </div>
-                <div>
-                    <label htmlFor="address" className={styles.dataField_make}>Địa chỉ: </label>
-                    <input className={styles.input_make}
-                        type="text"
-                        id="address"
-                        name="address"
-                        value={formData.address}
-                        onChange={handleChange}
-                        placeholder="Địa chỉ"
-                    />
-                </div>
-                <div>
-                    <label className = {styles.dataField_make} >Giới tính:</label>
-                    <label>
+            <div className={styles.registerContainer}>
+                <h2 className={styles.header}>Thêm bệnh nhân</h2>
+                <form onSubmit={handleSubmit}>
+                    <div>
+                        <label
+                            htmlFor='fullname'
+                            className={styles.dataField_make}
+                        >
+                            Họ và tên:{' '}
+                        </label>
                         <input
-                            className={styles.input_sex}
-                            type="radio"
-                            name="sex"
-                            value="Nam"
-                            checked={formData.sex === 'Nam'}
+                            className={styles.input_make}
+                            type='text'
+                            id='fullname'
+                            name='fullname'
+                            value={formData.fullname}
                             onChange={handleChange}
+                            placeholder='Họ và tên'
                         />
-                        Nam
-                    </label>
-                    <label>
+                    </div>
+                    <div>
+                        <label
+                            htmlFor='yearOfBirth'
+                            className={styles.dataField_make}
+                        >
+                            Năm sinh:{' '}
+                        </label>
                         <input
-                            className={styles.input_sex}
-                            type="radio"
-                            name="sex"
-                            value="Nữ"
-                            checked={formData.sex === 'Nữ'}
+                            className={styles.input_make}
+                            type='number'
+                            id='yearOfBirth'
+                            name='yearOfBirth'
+                            value={formData.yearOfBirth}
                             onChange={handleChange}
+                            placeholder='Năm sinh'
                         />
-                        Nữ
-                    </label>
-                </div>
-                <button className={styles.button_make} type="submit">Thêm bệnh nhân</button>
-            </form>
-
+                    </div>
+                    <div>
+                        <label
+                            htmlFor='address'
+                            className={styles.dataField_make}
+                        >
+                            Địa chỉ:{' '}
+                        </label>
+                        <input
+                            className={styles.input_make}
+                            type='text'
+                            id='address'
+                            name='address'
+                            value={formData.address}
+                            onChange={handleChange}
+                            placeholder='Địa chỉ'
+                        />
+                    </div>
+                    <div>
+                        <label className={styles.dataField_make}>
+                            Giới tính:
+                        </label>
+                        <label>
+                            <input
+                                className={styles.input_sex}
+                                type='radio'
+                                name='sex'
+                                value='Nam'
+                                checked={formData.sex === 'Nam'}
+                                onChange={handleChange}
+                            />
+                            Nam
+                        </label>
+                        <label>
+                            <input
+                                className={styles.input_sex}
+                                type='radio'
+                                name='sex'
+                                value='Nữ'
+                                checked={formData.sex === 'Nữ'}
+                                onChange={handleChange}
+                            />
+                            Nữ
+                        </label>
+                    </div>
+                    <button className={styles.button_make} type='submit'>
+                        Thêm bệnh nhân
+                    </button>
+                </form>
+            </div>
             <h1 className={styles.header}>Danh sách bệnh nhân</h1>
-            <table className = {styles.table_make} border="1" style={{width: "100%"}}>
+            <table
+                className={styles.patientTable}
+        
+            >
                 <colgroup>
-                <col style = {{width: "5%"}}/>
-                <col style = {{width: "25%"}}/>
-                <col style = {{width: "5%"}}/>
-                <col style = {{width: "10%"}}/>
-                <col style = {{width: "40%"}}/>
-                <col style = {{width: "5%"}}/>
+                    <col style={{ width: '5%' }} />
+                    <col style={{ width: '25%' }} />
+                    <col style={{ width: '5%' }} />
+                    <col style={{ width: '10%' }} />
+                    <col style={{ width: '40%' }} />
+                    <col style={{ width: '5%' }} />
                 </colgroup>
                 <thead>
                     <tr>
@@ -186,8 +213,11 @@ const MedicalExaminationPage = () => {
                                 key={patient.id}
                                 onClick={() => setSelectedRows(patient)}
                                 style={{
-                                    backgroundColor: selectedRows?.id === patient.id ? "#00FFFF" : "",
-                                    cursor: "pointer",
+                                    backgroundColor:
+                                        selectedRows?.id === patient.id
+                                            ? '#00FFFF'
+                                            : '',
+                                    cursor: 'pointer',
                                 }}
                             >
                                 <td>{patient.id}</td>
@@ -196,25 +226,32 @@ const MedicalExaminationPage = () => {
                                 <td>{patient.yearOfBirth}</td>
                                 <td>{patient.address}</td>
                                 <td>
-                                    <button onClick={() => handleDelete(patient.id)}>Xóa</button>
+                                    <button 
+                                        onClick={() => handleDelete(patient.id)}
+                                    >
+                                        Xóa
+                                    </button>
                                 </td>
                             </tr>
                         ))
                     ) : (
                         <tr>
-                            <td colSpan="4" style={{ textAlign: 'center' }}>
+                            <td colSpan='4' style={{ textAlign: 'center' }}>
                                 Không có dữ liệu bệnh nhân.
                             </td>
                         </tr>
                     )}
                 </tbody>
             </table>
-            <div style={{display: 'flex', gap: '20px'}}>
-            <button className= {styles.button_make} onClick={handleProfileCreation} style={{ marginTop: "20px" }}>
-                Lập Hồ Sơ
-            </button>
+            <div style={{ display: 'flex', gap: '20px' }}>
+                <button
+                    className={styles.button_make}
+                    onClick={handleProfileCreation}
+                    style={{ marginTop: '20px' }}
+                >
+                    Lập Hồ Sơ
+                </button>
             </div>
-
         </div>
     );
 };

@@ -109,15 +109,16 @@ const PayPage = () => {
 
       <h1 style={{ textAlign: "center" }}>Danh sách bệnh nhân đã khám trong hôm nay</h1>
 
-      <table className={styles.table_make} border="1" style={{ width: "100%", borderCollapse: "collapse" }}>
+      <table className={styles.payTable}>
         <thead>
           <tr>
-            <th>ID</th>
-            <th>Họ và tên</th>
-            <th>Giới tính</th>
-            <th>Địa chỉ</th>
-            <th>Năm sinh</th>
-            <th>Ngày khám</th>
+            <th className={styles.index}>Stt</th>
+            <th className={styles.name}>Họ và tên</th>
+            <th className={styles.sex}>Giới tính</th>
+            <th className={styles.birth}>Năm sinh</th>
+            <th className={styles.date}>Ngày khám</th>
+            <th className={styles.address}>Địa chỉ</th>
+            
           </tr>
         </thead>
         <tbody>
@@ -128,12 +129,13 @@ const PayPage = () => {
               onClick={() => handleRowClick(patient)}
               style={{ cursor: "pointer" }}
             >
-              <td>{patient.id}</td>
+              <td>{patients.indexOf(patient)+1}</td>
               <td>{patient.fullname}</td>
               <td>{patient.sex}</td>
-              <td>{patient.address}</td>
               <td>{patient.yearOfBirth}</td>
               <td>{patient.date}</td>
+              <td>{patient.address}</td>
+              
             </tr>
           ))}
         </tbody>

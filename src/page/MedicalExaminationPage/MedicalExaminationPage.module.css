@@ -5,45 +5,62 @@
     background-color: #f8f9fa;
     border-radius: 8px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    max-width: 1000px;
+    max-width: 90%;
     margin: 0 auto;
     position: relative;
     top: 10vh;
 }
 
+.registerContainer {
+    padding: 30px;
+    font-family: Arial, sans-serif;
+    background-color: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    max-width: 50%;
+    margin: 0 auto;
+    position: relative;
+    top: 5vh;
+    margin-bottom: 100px;
+}
 
-.header {   
-    font-size: 32px;
+
+.header {
+    font-size: 24px;
     font-weight: bold;
-    color: #007bff;
     margin-bottom: 20px;
     text-align: center;
-    
-}
-.header_mini {   
-    font-size: 25px;
+    color: #333;
+  }
+  
+  .dataField_make {
+    font-size: 18px;
+    margin-bottom: 8px;
     font-weight: bold;
-    color: #007bff;
-    margin-bottom: 20px;
-    text-align: left;
-    
-}
-.dataField_make {
-    font-size: 20px;
-    font-weight: bold;
-    margin-bottom: 70px;
-}
-.input_make, .button_make {
-    margin-bottom: 10px; 
-}
-.input_make {
-    width: 300px; 
-}
-.input_sex{
-    width: 30px;
-    font-size: 20px;
+    color: #333;
+    display: block;
 
-}
+  }
+  
+  .input_make {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+    box-sizing: border-box;
+  }
+  
+  .input_make:focus {
+    border-color: #007bff;
+    outline: none;
+  }
+  
+  .input_sex {
+    margin-right: 8px;
+  }
+
 .button_make{
     background-color: #007bff;
     color: #fff;
@@ -74,12 +91,7 @@
 .button_make:hover {
     background-color: #0056b3;
 }
-.table_make{
-    margin-top: 20px;
-    margin-right: 20px;
-    max-width: 950px;   
-    min-width: none;
-}
+
 .makeExamination{
     font-size: 20px;
     margin: 0px;
@@ -89,48 +101,41 @@
 }
 .table_make{
     
-    margin: 20px;
-    padding: 20px;
-    align-items: center;
-    border: 1px solid #333;
+    width: 100%;
     border-collapse: collapse;
-        border-collapse: collapse;
+    margin-top: 20px;
+    user-select: none;
 
 }
-.table_make td, .table_make tr{
-    border: 1px solid #141010;
+.table_make th,
+.table_make td {
+    border: 1px solid #ddd;
     text-align: center;
     padding: 10px;
     font-size: 14px;
     font-size: 18px;
-    width: 1000px;
 }
+
 .table_make th {
     background-color: #007bff;
     color: #fff;
     font-weight: bold;
-    margin: 5px;
-    padding: 5px;
-}
-.table_make td{
-    padding: 5px;
-    cursor: pointer;
-    margin: 5px;
-}
-.table_make tr:nth-child(even) {
-    background-color: #f2f2f2;
 }
 .flex-row {
-    display: flex;
+    display: flex;;
     align-items: center;
-    gap: 20px; /* Khoảng cách giữa các phần tử */
-    margin-bottom: 20px; /* Tùy chỉnh khoảng cách dưới dòng */
-    margin-left: 100px;
+
+
+    justify-content: center;
+    font-size: 18px;
+    margin: 30px;
+
+
 }
 .flex-row2 {
     display: flex;
     align-items: center;
-    gap: 50px; /* Khoảng cách giữa các phần tử */
+
     margin-bottom: 30px; /* Tùy chỉnh khoảng cách dưới dòng */
   }  
 .flex-buttons {
@@ -145,4 +150,74 @@
 }
 .data{
     margin-bottom: 20px;
+}
+
+.patientTable{
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    user-select: none;
+}
+.patientTable th,
+.patientTable td {
+    border: 1px solid #ddd;
+    text-align: center;
+    padding: 10px;
+    font-size: 14px;
+    font-size: 18px;
+}
+
+.patientTable th {
+    background-color: #007bff;
+    color: #fff;
+    font-weight: bold;
+}
+.patientTable td{
+    cursor: pointer;
+}
+.patientTable tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+.patientTable tr:hover {
+    background-color: #e9ecef;
+}
+
+.flexColumn {
+    font-size: 18px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+
+}
+.formData{
+    padding: 20px;
+     border: 2px solid black;
+
+    border-radius: 10px;
+}
+.buttonDelete{
+    background-color: #e10404;
+    color: #fff;
+    border: none;
+
+    padding: 10px 15px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s;
+
+}
+
+.buttonAdd{
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+
+    padding: 10px 15px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s;
+
 }
