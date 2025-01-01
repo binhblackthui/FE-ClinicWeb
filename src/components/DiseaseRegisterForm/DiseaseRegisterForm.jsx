@@ -2,24 +2,29 @@ import { useState } from 'react';
 import { notification } from 'antd';
 import styles from './DiseaseRegisterForm.module.css';
 import { createDisease } from '../../service/service';
-function DiseaseRegisterForm({data, setData}) {
+import { postIntrospection } from '../../service/service';
+import { useAuth } from '../AuthContext/AuthContext';
+function DiseaseRegisterForm({ data, setData }) {
     const [name, setName] = useState('');
     const [error, setError] = useState('');
     const handleChange = (e) => {
-        if(e.target.value)
-        {
+        if (e.target.value) {
             setError('');
         }
         setName(e.target.value);
     };
+    const { logout } = useAuth();
     const handleBlur = (e) => {
         if (!e.target.value) {
             setError('Vui lòng nhập tên bệnh!');
-        }
-        else if(data.some(disease => disease.name.toLowerCase() === e.target.value.toLowerCase())){
+        } else if (
+            data.some(
+                (disease) =>
+                    disease.name.toLowerCase() === e.target.value.toLowerCase()
+            )
+        ) {
             setError('Tên bệnh đã tồn tại!');
-        }
-         else {
+        } else {
             setError('');
         }
     };
@@ -31,32 +36,47 @@ function DiseaseRegisterForm({data, setData}) {
             setError('Vui lòng nhập tên bệnh!');
             return;
         }
-        try{
+        try {
+            const valid = await postIntrospection();
+            if (!valid.data.valid) {
+                logout();
+                notification.error({
+                    message: 'Phiên làm việc hết hạn',
+                    description: 'Vui lòng đăng nhập lại',
+                });
+            }
+        } catch (error) {
+            logout();
+            notification.error({
+                message: 'Lỗi hệ thống',
+                description: 'Vui lòng thử lại sau',
+            });
+            console.error(error);
+        }
+        try {
             const response = await createDisease(name);
-            if(response.status === 200){
+            if (response.status === 200) {
                 setData([...data, response.data]);
                 setName('');
                 notification.success({
                     message: 'Đăng kí bệnh thành công',
-                    description: 'Bệnh đã được thêm vào danh sách'
+                    description: 'Bệnh đã được thêm vào danh sách',
                 });
             }
-        }
-        catch(error)
-        {
+        } catch (error) {
             console.log(error);
             notification.error({
                 message: 'Đăng kí bệnh thất bại',
-                description: 'Vui lòng thử lại sau'
+                description: 'Vui lòng thử lại sau',
             });
-        }   
-    }
+        }
+    };
     return (
         <>
             <div className={styles.registerContainer}>
                 <h1 className={styles.header}>ĐĂNG KÍ BỆNH</h1>
                 <div className={styles.dataForm}>
-                    <div className= {styles.inputForm}>
+                    <div className={styles.inputForm}>
                         <label>Tên bệnh</label>
                         <input
                             type='text'
@@ -69,7 +89,9 @@ function DiseaseRegisterForm({data, setData}) {
                         />
                         <span className={styles.error}>{error}</span>
                     </div>
-                    <button onClick={handleRegister} className={styles.button}>Đăng ký</button>
+                    <button onClick={handleRegister} className={styles.button}>
+                        Đăng ký
+                    </button>
                 </div>
             </div>
         </>

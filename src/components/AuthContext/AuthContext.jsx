@@ -1,13 +1,10 @@
 import React, { createContext, useContext, useState } from 'react';
-
 const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
     const [isAuthenticated, setIsAuthenticated] = useState(
-        !!localStorage.getItem('token')
+        localStorage.getItem('token') ? true : false
     );
-    
-    
     const login = (token) => {
         localStorage.setItem('token', token);
         setIsAuthenticated(true);

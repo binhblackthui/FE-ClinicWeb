@@ -3,6 +3,8 @@ import { notification } from 'antd';
 import styles from './OtherRegulationsPage.module.css';
 import { getConfigration, updateConfigration } from '../../../service/service';
 import { parseCurrency,formatCurrency, isInt} from '../../../helper/stringUtils';
+import { postIntrospection } from '../../../service/service';
+import { useAuth } from '../../../components/AuthContext/AuthContext';
 function OtherRegulationsPage() {
     const [config, setConfig] = useState({
          maxPatient: '',
@@ -12,7 +14,29 @@ function OtherRegulationsPage() {
         maxPatient: '',
         examinationPrice: '',
     });
+    const { logout } = useAuth();
+
     useEffect(() => {
+        const checkSession = async () => {
+            console.log('check session');
+            try {
+                const valid = await postIntrospection();
+                if (!valid.data.valid) {
+                    logout();
+                    notification.error({
+                        message: 'Phiên làm việc hết hạn',
+                        description: 'Vui lòng đăng nhập lại',
+                    });
+                }
+            } catch (error) {
+                logout();
+                notification.error({
+                    message: 'Lỗi hệ thống',
+                    description: 'Vui lòng thử lại sau',
+                });
+                console.error(error);
+            }
+        };
         const fetchData = async () => {
             try {
                 const response = await getConfigration();
@@ -21,6 +45,7 @@ function OtherRegulationsPage() {
                 console.log(error);
             }
         };
+        checkSession();
         fetchData();
     }, []);
     const validateConfig = (name) => {

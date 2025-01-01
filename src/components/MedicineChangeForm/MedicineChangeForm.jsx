@@ -1,8 +1,14 @@
 import { useState } from 'react';
 import { notification } from 'antd';
 import styles from './MedicineChangeForm.module.css';
-import { formatCurrency, parseCurrency,upperFirstLetter } from '../../helper/stringUtils';
-import { updateMedicine, deleteMedicine} from '../../service/service';
+import {
+    formatCurrency,
+    parseCurrency,
+    upperFirstLetter,
+} from '../../helper/stringUtils';
+import { updateMedicine, deleteMedicine } from '../../service/service';
+import { postIntrospection } from '../../service/service';
+import { useAuth } from '../AuthContext/AuthContext';
 
 function MedicineChangeForm({
     selectedMedicine,
@@ -16,15 +22,20 @@ function MedicineChangeForm({
         price: '',
         medicineUsage: '',
     });
-
+    const { logout } = useAuth();
     const validateMedicine = (name) => {
         if (name === 'nameOfMedicine') return 'Vui lòng nhập tên thuốc!';
         if (name === 'price') return 'Vui lòng nhập giá hợp lệ!';
         if (name === 'medicineUsage') return 'Vui lòng nhập cách dùng!';
     };
+
     const handleChange = (e) => {
         const { name, value } = e.target;
-        if (!value || (name === 'price' && (isNaN(parseCurrency(value))|| parseCurrency(value) < 1000))) {
+        if (
+            !value ||
+            (name === 'price' &&
+                (isNaN(parseCurrency(value)) || parseCurrency(value) < 1000))
+        ) {
             setError({
                 ...error,
                 [name]: validateMedicine(name),
@@ -45,12 +56,35 @@ function MedicineChangeForm({
         }
     };
     const handleUpdate = async () => {
-        if(Object.values(error).some(err => err !== '')){
+        if (Object.values(error).some((err) => err !== '')) {
             return;
-        }   
-        if(data.some(med => med.nameOfMedicine.toLowerCase() === selectedMedicine.nameOfMedicine.toLowerCase())){
-            setError({...error, nameOfMedicine: 'Tên thuốc đã tồn tại!'});
+        }
+        if (
+            data.some(
+                (med) =>
+                    med.nameOfMedicine.toLowerCase() ===
+                    selectedMedicine.nameOfMedicine.toLowerCase()
+            )
+        ) {
+            setError({ ...error, nameOfMedicine: 'Tên thuốc đã tồn tại!' });
             return;
+        }
+        try {
+            const valid = await postIntrospection();
+            if (!valid.data.valid) {
+                logout();
+                notification.error({
+                    message: 'Phiên làm việc hết hạn',
+                    description: 'Vui lòng đăng nhập lại',
+                });
+            }
+        } catch (error) {
+            logout();
+            notification.error({
+                message: 'Lỗi hệ thống',
+                description: 'Vui lòng thử lại sau',
+            });
+            console.error(error);
         }
         try {
             const res = await updateMedicine(

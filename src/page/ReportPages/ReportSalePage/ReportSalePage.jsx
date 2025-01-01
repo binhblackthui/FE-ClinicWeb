@@ -2,6 +2,10 @@ import styles from './ReportSalePage.module.css';
 import { useState } from 'react';
 import { getRevenue } from '../../../service/service.js';
 import { formatCurrency, formatDate } from '../../../helper/stringUtils.js';
+import { useAuth } from '../../../components/AuthContext/AuthContext';
+import { useEffect } from 'react';
+import { postIntrospection } from '../../../service/service';
+import { notification } from 'antd';
 function ReportSalePage() {
     const [month, setMonth] = useState('');
     const [error, setError] = useState('');
@@ -11,6 +15,30 @@ function ReportSalePage() {
     });
     const [bestSale, setBestSale] = useState({});
     const [resultReport, setResultReport] = useState([]);
+    const {logout}  = useAuth();
+    useEffect(() => {
+        const checkSession = async () => {
+            console.log('check session');
+            try {
+                const valid = await postIntrospection();
+                if (!valid.data.valid) {
+                    logout();
+                    notification.error({
+                        message: 'Phiên làm việc hết hạn',
+                        description: 'Vui lòng đăng nhập lại',
+                    });
+                }
+            } catch (error) {
+                logout();
+                notification.error({
+                    message: 'Lỗi hệ thống',
+                    description: 'Vui lòng thử lại sau',
+                });
+                console.error(error);
+            }
+        };
+    }, []);
+
     const validateMonth = (month) => {
         if (!month) return 'Vui lòng chọn tháng!';
         if (month >= new Date().toISOString().slice(0, 7))
@@ -18,6 +46,7 @@ function ReportSalePage() {
         return '';
     };
 
+    
     const getDaysInMonth = (month) => {
         // Kiểm tra nếu month không hợp lệ
         if (!month) return [];
@@ -57,9 +86,25 @@ function ReportSalePage() {
             setError(validationError);
             return;
         }
-
+        try {
+            const valid = await postIntrospection();
+            if (!valid.data.valid) {
+                logout();
+                notification.error({
+                    message: 'Phiên làm việc hết hạn',
+                    description: 'Vui lòng đăng nhập lại',
+                });
+            }
+        } catch (error) {
+            logout();
+            notification.error({
+                message: 'Lỗi hệ thống',
+                description: 'Vui lòng thử lại sau',
+            });
+            console.error(error);
+        }
         const days = getDaysInMonth(month);
-
+    
         try {
             const results = await Promise.all(
                 days.map((day) =>

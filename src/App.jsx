@@ -14,8 +14,9 @@ import Headers from './components/Header/Header';
 import './App.css';
 import PrivateRoute from './components/PrivateRoute/PrivateRoute';
 import { useEffect } from 'react';
-import { useAuth } from './components/AuthContext/AuthContext';
 import { postIntrospection } from './service/service';
+import { useAuth } from './components/AuthContext/AuthContext';
+import { notification } from 'antd';
 const routes = createBrowserRouter([
     {
         path: '/login',
@@ -23,7 +24,7 @@ const routes = createBrowserRouter([
     },
     {
         path: '/',
-        element:(
+        element: (
             <PrivateRoute>
                 <Headers />
             </PrivateRoute>
@@ -31,8 +32,8 @@ const routes = createBrowserRouter([
         children: [
             { path: '', element: <Homepage /> },
             { path: 'examination', element: <MedicalExaminationPage /> },
-            {path : 'make', element: <MakePage />},
-            {path : 'pay', element: <PayPage />},
+            { path: 'make', element: <MakePage /> },
+            { path: 'pay', element: <PayPage /> },
             { path: 'search', element: <SearchPage /> },
             { path: 'report/sales', element: <ReportSalePage /> },
             { path: 'report/medicines', element: <ReportMedicinePage /> },
@@ -43,23 +44,9 @@ const routes = createBrowserRouter([
     },
 ]);
 
-
 function App() {
-    const isAuthenticated = useAuth();
-    useEffect(() => async () => {
-        if (isAuthenticated) {
-            try {
-            const response = await postIntrospection(localStorage.getItem('token'));
-            if (response.data.valid === false) {
-                localStorage.removeItem('token');
-            }}
-            catch (error) {
-                console.log(error); 
-            }
-        } 
-    }, []);
+  
     return <RouterProvider router={routes} />;
 }
 
 export default App;
-

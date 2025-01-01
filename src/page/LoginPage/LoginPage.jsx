@@ -54,7 +54,7 @@ function LoginPage() {
             notification.error({
                 message: 'Đăng nhập thất bại',
                 description: 'Vui lòng kiểm tra lại thông tin đăng nhập',
-                size: 'large',
+
             });
         }
     };

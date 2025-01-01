@@ -2,7 +2,8 @@ import { useState } from 'react';
 import { notification } from 'antd';
 import { updateDisease, deleteDisease } from '../../service/service';
 import styles from './DiseaseChangeForm.module.css';
-
+import { useAuth } from '../AuthContext/AuthContext';
+import { postIntrospection } from '../../service/service';
 function DiseaseChangeForm({
     selectedDisease,
     setSelectedDisease,
@@ -18,6 +19,7 @@ function DiseaseChangeForm({
             [e.target.name]: e.target.value,
         });
     };
+    const { logout } = useAuth();
     const handleBlur = (e) => {
         console.log(data.some(disease => disease.name.toLowerCase() === e.target.value.toLowerCase()));
         if (e.target.value === '') {
@@ -34,6 +36,23 @@ function DiseaseChangeForm({
             return;
         }
   
+        try{
+            const valid = await postIntrospection();
+            if (!valid.data.valid) {
+                logout();
+                notification.error({
+                    message: 'Phiên làm việc hết hạn',
+                    description: 'Vui lòng đăng nhập lại',
+                });
+            }
+        }catch(error){
+            logout();
+            notification.error({
+                message: 'Lỗi hệ thống',
+                description: 'Vui lòng thử lại sau',
+            });
+            console.error(error);
+        }
 
         try {
             await updateDisease(selectedDisease.id, selectedDisease.name);
@@ -55,6 +74,24 @@ function DiseaseChangeForm({
         }
     };
     const handleDelete = async () => {
+        try{
+            const valid = await postIntrospection();
+            if (!valid.data.valid) {
+                logout();
+                notification.error({
+                    message: 'Phiên làm việc hết hạn',
+                    description: 'Vui lòng đăng nhập lại',
+                });
+            }
+        }
+        catch(error){
+            logout();
+            notification.error({
+                message: 'Lỗi hệ thống',
+                description: 'Vui lòng thử lại sau',
+            });
+            console.error(error);
+        }
         try {
             await deleteDisease(selectedDisease.id);
             const index = data.findIndex(

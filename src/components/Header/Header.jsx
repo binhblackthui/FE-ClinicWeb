@@ -23,8 +23,6 @@ function Header() {
     }
     return (
         <>
-
-
             <div  className={styles.nav}>
                 <ul className={styles.nav_list}>
                     <div className={styles.nav_item} onClick={() => {setShow(!show); setReset(false)}}>

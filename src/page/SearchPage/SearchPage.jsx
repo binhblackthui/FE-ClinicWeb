@@ -1,9 +1,13 @@
 import React, { useState, useEffect } from 'react';
+
 import styles from './SearchPage.module.css';
 import { searchPatients } from '../../service/service';
 import FactSheet from '../../components/FactSheet/FactSheet';
 import Modal from '../../components/Modal/Modal';
 import { formatDate, upperFirstLetterEachWord } from '../../helper/stringUtils';
+import { useAuth } from '../../components/AuthContext/AuthContext';
+import { notification } from 'antd';
+import { postIntrospection } from '../../service/service';
 const SearchPage = () => {
     const [searchParams, setSearchParams] = useState({
         id: '',
@@ -13,7 +17,30 @@ const SearchPage = () => {
     const [show, setShow] = useState(false);
     const [patient, setPatient] = useState(null);
     const [results, setResults] = useState([]);
-
+    const {logout} = useAuth();
+    useEffect(() => {
+        const checkSession = async () => {
+            console.log('check session');
+            try {
+                const valid = await postIntrospection();
+                if (!valid.data.valid) {
+                    logout();
+                    notification.error({
+                        message: 'Phiên làm việc hết hạn',
+                        description: 'Vui lòng đăng nhập lại',
+                    });
+                }
+            } catch (error) {
+                logout();
+                notification.error({
+                    message: 'Lỗi hệ thống',
+                    description: 'Vui lòng thử lại sau',
+                });
+                console.error(error);
+            }
+        };
+        checkSession();    
+    },[]);
     const handleChange = (e) => {
         const { name, value } = e.target;
         setSearchParams({ ...searchParams, [name]: value });
@@ -23,6 +50,22 @@ const SearchPage = () => {
         setShow(true);
     }
     const handleSearch = async () => {
+        try {
+            const valid = await postIntrospection();
+            if (!valid.data.valid) {
+                logout();
+                notification.error({
+                    message: 'Phiên làm việc hết hạn',
+                    description: 'Vui lòng đăng nhập lại',
+                });
+            }
+        } catch (error) {
+            logout();
+            notification.error({
+                message: 'Lỗi hệ thống',
+                description: 'Vui lòng thử lại sau',
+            });
+        }
         try {
             const response = await searchPatients(
                 searchParams.id,

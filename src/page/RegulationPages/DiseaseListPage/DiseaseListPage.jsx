@@ -4,6 +4,10 @@ import DiseaseInfoTable from '../../../components/DiseaseInfoTable/DiseaseInfoTa
 import DiseaseChangeForm from '../../../components/DiseaseChangeForm/DiseaseChangeForm';
 import DiseaseRegisterForm from '../../../components/DiseaseRegisterForm/DiseaseRegisterForm';
 import Modal from '../../../components/Modal/Modal';
+import { postIntrospection } from '../../../service/service';
+import { notification } from 'antd';
+import { useAuth } from '../../../components/AuthContext/AuthContext';
+
 
 function DiseaseListPage() {
     const [data, setData] = useState([]);
@@ -12,6 +16,7 @@ function DiseaseListPage() {
     const onClose = () => {
         setShow(false);
     };
+    const { logout } = useAuth();
     useEffect(() => {
         const fetchData = async () => {
             try {
@@ -21,6 +26,27 @@ function DiseaseListPage() {
                 console.log(error);
             }
         };
+        const checkSession = async () => {
+            try {
+                const valid = await postIntrospection();
+                if (!valid.data.valid) {
+                    logout();
+                    notification.error({
+                        message: 'Phiên làm việc hết hạn',
+                        description: 'Vui lòng đăng nhập lại',
+                    });
+                }
+            }
+            catch (error) {
+                logout();
+                notification.error({
+                    message: 'Lỗi hệ thống',
+                    description: 'Vui lòng thử lại sau',
+                });
+                console.error(error);
+            }
+        }
+        checkSession();
         fetchData();
     }, []);
     return (

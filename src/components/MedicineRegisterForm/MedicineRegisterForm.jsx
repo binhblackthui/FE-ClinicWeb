@@ -2,7 +2,14 @@ import styles from './MedicineRegisterForm.module.css';
 import { useState } from 'react';
 import { notification } from 'antd';
 import { createMedicine } from '../../service/service';
-import { formatCurrency, parseCurrency,upperFirstLetter, isInt} from '../../helper/stringUtils';
+import { postIntrospection } from '../../service/service';
+import{useAuth} from '../AuthContext/AuthContext';
+import {
+    formatCurrency,
+    parseCurrency,
+    upperFirstLetter,
+    isInt,
+} from '../../helper/stringUtils';
 
 function MedicineRegisterForm({ data, setData }) {
     const [medicine, setMedicine] = useState({
@@ -16,6 +23,7 @@ function MedicineRegisterForm({ data, setData }) {
         price: '',
         medicineUsage: '',
     });
+    const { logout } = useAuth();
     const validateMedicine = (name) => {
         if (name === 'nameOfMedicine') return 'Vui lòng nhập tên thuốc!';
         if (name === 'price') return 'Vui lòng nhập giá hợp lệ!';
@@ -23,7 +31,11 @@ function MedicineRegisterForm({ data, setData }) {
     };
     const handleChange = (e) => {
         const { name, value } = e.target;
-        if (!value || (name === 'price' && (isNaN(parseCurrency(value))|| parseCurrency(value) < 1000))) {
+        if (
+            !value ||
+            (name === 'price' &&
+                (isNaN(parseCurrency(value)) || parseCurrency(value) < 1000))
+        ) {
             setError({
                 ...error,
                 [name]: validateMedicine(name),
@@ -39,7 +51,7 @@ function MedicineRegisterForm({ data, setData }) {
             [name]: name === 'price' ? parseCurrency(value || 0) : value,
         });
     };
-    
+
     const handleRegister = async () => {
         const errors = {};
         if (!medicine.nameOfMedicine) {
@@ -52,12 +64,35 @@ function MedicineRegisterForm({ data, setData }) {
             errors.medicineUsage = validateMedicine('medicineUsage');
         }
         setError(errors);
-        if (Object.values(errors).some(err => err !== '')) {
+        if (Object.values(errors).some((err) => err !== '')) {
             return;
         }
-        if(data.some(med => med.nameOfMedicine.toLowerCase() === medicine.nameOfMedicine.toLowerCase())){
-            setError({...error, nameOfMedicine: 'Tên thuốc đã tồn tại!'});
+        if (
+            data.some(
+                (med) =>
+                    med.nameOfMedicine.toLowerCase() ===
+                    medicine.nameOfMedicine.toLowerCase()
+            )
+        ) {
+            setError({ ...error, nameOfMedicine: 'Tên thuốc đã tồn tại!' });
             return;
+        }
+        try {
+            const valid = await postIntrospection();
+            if (!valid.data.valid) {
+                logout();
+                notification.error({
+                    message: 'Phiên làm việc hết hạn',
+                    description: 'Vui lòng đăng nhập lại',
+                });
+            }
+        } catch (error) {
+            logout();
+            notification.error({
+                message: 'Lỗi hệ thống',
+                description: 'Vui lòng thử lại sau',
+            });
+            console.error(error);
         }
         try {
             const res = await createMedicine(
@@ -68,13 +103,15 @@ function MedicineRegisterForm({ data, setData }) {
             );
 
             if (res.status === 200) {
-                notification.success({ message: 'Đăng ký thành công',
-                description: 'Đã thêm thuốc mới vào hệ thống' 
-                 });
+                notification.success({
+                    message: 'Đăng ký thành công',
+                    description: 'Đã thêm thuốc mới vào hệ thống',
+                });
                 setData([...data, res.data]);
             } else {
-                notification.error({ message: 'Đăng ký thất bại',
-                description: 'Vui lòng thử lại sau'
+                notification.error({
+                    message: 'Đăng ký thất bại',
+                    description: 'Vui lòng thử lại sau',
                 });
             }
             setMedicine({
@@ -144,7 +181,9 @@ function MedicineRegisterForm({ data, setData }) {
                     />
                     <span className={styles.error}>{error.medicineUsage}</span>
                 </div>
-                <button onClick={handleRegister} className={styles.button}>Đăng ký</button>
+                <button onClick={handleRegister} className={styles.button}>
+                    Đăng ký
+                </button>
             </div>
         </div>
     );

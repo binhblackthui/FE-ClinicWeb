@@ -1,6 +1,11 @@
 import React, { useState } from 'react';
 import styles from './ReportMedicinePage.module.css';
 import { getSalesMedicine } from '../../../service/service.js';
+import { useEffect } from 'react';
+import { notification } from 'antd';
+import { postIntrospection } from '../../../service/service';
+import { useAuth } from '../../../components/AuthContext/AuthContext';
+import { useNavigate } from 'react-router-dom';
 function ReportMedicinePage() {
     const [month, setMonth] = useState('');
     const [error, setError] = useState('');
@@ -9,8 +14,32 @@ function ReportMedicinePage() {
         if (!month) return 'Vui lòng chọn tháng!';
         if (month >= new Date().toISOString().slice(0, 7))
             return 'Vui lòng chọn tháng khác!';
-        return '';
+        return 'Doanh số thuốc của tháng này chưa được cập nhật!';
     };
+    
+    useEffect(() => {
+        const checkSession = async () => {
+            try {
+                const valid = await postIntrospection();
+                if (!valid.data.valid) {
+                    logout();
+                    notification.error({
+                        message: 'Phiên làm việc hết hạn',
+                        description: 'Vui lòng đăng nhập lại',
+                    });
+                }
+            } catch (error) {
+                logout();
+                notification.error({
+                    message: 'Lỗi hệ thống',
+                    description: 'Vui lòng thử lại sau',
+                });
+                console.error(error);
+            }
+        };
+        checkSession();
+    }, []);
+
     const cutMonth = (month) => {
         const monthNum = month.split('-')[1];
         const year = month.split('-')[0];
@@ -25,6 +54,23 @@ function ReportMedicinePage() {
         if (validationError) {
             setError(validationError);
             return;
+        }
+        try{
+            const checkSession = await postIntrospection();
+            if(!checkSession.data.valid){
+                logout();
+                notification.error({
+                    message: 'Phiên làm việc hết hạn',
+                    description: 'Vui lòng đăng nhập lại',
+                });
+            }
+        }catch(error){
+            logout();
+            notification.error({
+                message: 'Lỗi hệ thống',
+                description: 'Vui lòng thử lại sau',
+            });
+            console.error(error);
         }
         const { monthNum, year } = cutMonth(month);
 

@@ -14,9 +14,9 @@ export const loginAccount= (username,password)=>{
     });
 }
 
-export const postIntrospection = (token) => {
+export const postIntrospection = () => {
     return axios.post("/api/introspect", {
-        token: token,
+        token: getAuthToken(),
         authenticated: true 
     });
 }
