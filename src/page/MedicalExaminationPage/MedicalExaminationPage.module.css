@@ -1,5 +1,5 @@
-/* 
-.container {
+
+.container_make {
     padding: 20px;
     font-family: Arial, sans-serif;
     background-color: #f8f9fa;
@@ -12,34 +12,73 @@
 }
 
 
-.header {
-    font-size: 24px;
+.header {   
+    font-size: 32px;
     font-weight: bold;
-    color: #333;
+    color: #007bff;
     margin-bottom: 20px;
     text-align: center;
+    
 }
-.dataField {
-    font-size: 17px;
+.header_mini {   
+    font-size: 25px;
+    font-weight: bold;
+    color: #007bff;
+    margin-bottom: 20px;
+    text-align: left;
+    
+}
+.dataField_make {
+    font-size: 20px;
     font-weight: bold;
     margin-bottom: 70px;
 }
-input, button {
+.input_make, .button_make {
     margin-bottom: 10px; 
 }
-input {
+.input_make {
     width: 300px; 
 }
 .input_sex{
     width: 30px;
+    font-size: 20px;
+
 }
-button{
-    color:black;
-    background-color: greenyellow
+.button_make{
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    margin-top: 31px;
+    padding: 10px 15px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s;
+    margin-right: 1px;
 }
-.table{
+.button_make_red{
+    background-color: #e10404;
+    color: #fff;
+    border: none;
+    margin-top: 31px;
+    padding: 10px 15px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s;
+    margin-right: 1px;
+}
+.button_make_red:hover {
+    background-color: #540606;
+}
+.button_make:hover {
+    background-color: #0056b3;
+}
+.table_make{
     margin-top: 20px;
-    width: 950px;   
+    margin-right: 20px;
+    max-width: 950px;   
+    min-width: none;
 }
 .makeExamination{
     font-size: 20px;
@@ -48,11 +87,62 @@ button{
 .label_input_container {
     display: flex;
 }
-table,td, tr{
+.table_make{
     
     margin: 20px;
     padding: 20px;
     align-items: center;
     border: 1px solid #333;
     border-collapse: collapse;
-} */
+        border-collapse: collapse;
+
+}
+.table_make td, .table_make tr{
+    border: 1px solid #141010;
+    text-align: center;
+    padding: 10px;
+    font-size: 14px;
+    font-size: 18px;
+    width: 1000px;
+}
+.table_make th {
+    background-color: #007bff;
+    color: #fff;
+    font-weight: bold;
+    margin: 5px;
+    padding: 5px;
+}
+.table_make td{
+    padding: 5px;
+    cursor: pointer;
+    margin: 5px;
+}
+.table_make tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+.flex-row {
+    display: flex;
+    align-items: center;
+    gap: 20px; /* Khoảng cách giữa các phần tử */
+    margin-bottom: 20px; /* Tùy chỉnh khoảng cách dưới dòng */
+    margin-left: 100px;
+}
+.flex-row2 {
+    display: flex;
+    align-items: center;
+    gap: 50px; /* Khoảng cách giữa các phần tử */
+    margin-bottom: 30px; /* Tùy chỉnh khoảng cách dưới dòng */
+  }  
+.flex-buttons {
+    display: flex;
+    justify-content: flex-start; /* Căn trái */
+    gap: 10px; /* Khoảng cách giữa các nút */
+    margin-top: 20px; /* Khoảng cách trên nút */
+    margin-right: 20px;
+  }
+.date{
+    margin-left: 238px;
+}
+.data{
+    margin-bottom: 20px;
+}

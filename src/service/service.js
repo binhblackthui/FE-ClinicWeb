@@ -56,8 +56,30 @@ export const addExaminationResults = (examinationResults) => {
         }
     });
 };
-
-
+export const deleteExaminationResults = (examinationResults) => {
+    return axios.delete("/api/examinationResults", {
+      data: examinationResults,  // Gửi dữ liệu trong `data`
+      headers: {
+        'Authorization': `Bearer ${getAuthToken()}`  // Token xác thực
+      }
+    });
+  };
+  
+export const addNewPrescription = (prescriptions) => {
+    return axios.post("/api/prescriptions", prescriptions,{
+        headers:{
+            'Authorization':`Bearer ${getAuthToken()}`
+        }
+    });
+};
+export const deletePrescription = (prescriptions) => {
+    return axios.delete("/api/prescriptions",{
+            data: prescriptions,  // Gửi dữ liệu trong `data`
+            headers: {
+              'Authorization': `Bearer ${getAuthToken()}`  // Token xác thực
+            }
+  });
+};
 
 export const getPatients = ()=>{
     return axios.get("/api/patients",{
@@ -73,6 +95,14 @@ export const getInvoice = (id) =>{
         }
     });
 }
+export const getExamed = (date) => {
+    return axios.get("api/invoice/patients?date="+date,{
+        headers:{
+            'Authorization':`Bearer ${getAuthToken()}`
+        }
+    });
+};
+
 
 
 
@@ -198,7 +228,6 @@ export const deleteDisease = (id) => {
         }
     });
 };
-
 export const getConfigration = () => {
     return axios.get("/api/configuration", {
         headers: {

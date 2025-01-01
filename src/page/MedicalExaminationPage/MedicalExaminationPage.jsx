@@ -95,12 +95,12 @@ const MedicalExaminationPage = () => {
         navigate('/pay', {state: selectedRows});
     }
     return (
-        <div className={styles.container}>
-            <h2>Thêm bệnh nhân</h2>
+        <div className={styles.container_make}>
+            <h2 className={styles.header}>Thêm bệnh nhân</h2>
             <form onSubmit={handleSubmit}>
                 <div>
-                    <label htmlFor="fullname" className={styles.dataField}>Họ và tên: </label>
-                    <input
+                    <label htmlFor="fullname" className={styles.dataField_make}>Họ và tên: </label>
+                    <input className={styles.input_make}
                         type="text"
                         id="fullname"
                         name="fullname"
@@ -110,8 +110,8 @@ const MedicalExaminationPage = () => {
                     />
                 </div>
                 <div>
-                    <label htmlFor="yearOfBirth" className={styles.dataField}>Năm sinh: </label>
-                    <input
+                    <label htmlFor="yearOfBirth" className={styles.dataField_make}>Năm sinh: </label>
+                    <input className={styles.input_make}
                         type="number"
                         id="yearOfBirth"
                         name="yearOfBirth"
@@ -121,8 +121,8 @@ const MedicalExaminationPage = () => {
                     />
                 </div>
                 <div>
-                    <label htmlFor="address" className={styles.dataField}>Địa chỉ: </label>
-                    <input
+                    <label htmlFor="address" className={styles.dataField_make}>Địa chỉ: </label>
+                    <input className={styles.input_make}
                         type="text"
                         id="address"
                         name="address"
@@ -132,7 +132,7 @@ const MedicalExaminationPage = () => {
                     />
                 </div>
                 <div>
-                    <label><strong>Giới tính:</strong></label>
+                    <label className = {styles.dataField_make} >Giới tính:</label>
                     <label>
                         <input
                             className={styles.input_sex}
@@ -156,17 +156,17 @@ const MedicalExaminationPage = () => {
                         Nữ
                     </label>
                 </div>
-                <button type="submit">Thêm bệnh nhân</button>
+                <button className={styles.button_make} type="submit">Thêm bệnh nhân</button>
             </form>
 
             <h1 className={styles.header}>Danh sách bệnh nhân</h1>
-            <table border="1" style={{width: "100%"}}>
+            <table className = {styles.table_make} border="1" style={{width: "100%"}}>
                 <colgroup>
                 <col style = {{width: "5%"}}/>
                 <col style = {{width: "25%"}}/>
                 <col style = {{width: "5%"}}/>
                 <col style = {{width: "10%"}}/>
-                <col style = {{width: "45%"}}/>
+                <col style = {{width: "40%"}}/>
                 <col style = {{width: "5%"}}/>
                 </colgroup>
                 <thead>
@@ -176,6 +176,7 @@ const MedicalExaminationPage = () => {
                         <th>Giới tính</th>
                         <th>Năm sinh</th>
                         <th>Địa chỉ</th>
+                        <th>Xóa</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -209,10 +210,7 @@ const MedicalExaminationPage = () => {
                 </tbody>
             </table>
             <div style={{display: 'flex', gap: '20px'}}>
-            <button onClick= {handlePay} style={{marginTop: '20px'}}>
-                Thanh Toán
-            </button>
-            <button onClick={handleProfileCreation} style={{ marginTop: "20px" }}>
+            <button className= {styles.button_make} onClick={handleProfileCreation} style={{ marginTop: "20px" }}>
                 Lập Hồ Sơ
             </button>
             </div>
