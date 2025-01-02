@@ -1,4 +1,5 @@
 import { useLocation, useNavigate } from 'react-router-dom';
+import { notification } from 'antd';
 import styles from './MedicalExaminationPage.module.css';
 import {
     getMedicine,
@@ -92,12 +93,11 @@ const MakePage = () => {
             const fetchPrescription = async () => {
                 try {
                     const response = await getPrescription(patientData.id);
-
+                    console.log(response.data);
                     if (Array.isArray(response.data)) {
                         const prescriptions = response.data.map(
                             (prescription, index) => ({
-                                id: index + 1,
-                                drugId: prescription.idMedicine,
+                                id: prescription.id,
                                 drugName: prescription.nameOfMedicine,
                                 quantity: prescription.quantity,
                                 unit: prescription.unit,
@@ -177,8 +177,11 @@ const MakePage = () => {
     };
 
     const handleSubmit = async () => {
-        if (!symptom || !selectedDisease) {
-            alert('Vui lòng nhập triệu chứng và chọn chẩn đoán!');
+        if (!symptom || !(selectedDisease || defaultDisease)) {
+            notification.error({
+                message: 'Lỗi',
+                description: 'Vui lòng nhập đầy đủ thông tin bệnh và chuẩn đoán!',
+            });
             return;
         }
         console.log(idExam);
@@ -215,22 +218,30 @@ const MakePage = () => {
         }
 
         // Lưu dữ liệu mới
+        const idDisease =
+            selectedDisease ||
+            diseaseList.find((disease) => disease.name === defaultDisease)?.id;
         try {
             await addExaminationResults({
                 patient: { id: patientData.id },
-                disease: { id: selectedDisease },
+                disease: { id: idDisease },
                 symptom,
             });
-            console.log(rows);
             for (const row of rows) {
+                const idMedicine = data_table_medicine.find(
+                    (medicine) => medicine.nameOfMedicine === row.drugName
+                );
                 await addNewPrescription({
-                    medicine: { idMedicine: row.drugId },
+                    medicine: { idMedicine: idMedicine.idMedicine },
                     patient: { id: patientData.id },
                     quantity: row.quantity,
                 });
             }
 
-            alert('Lập phiếu khám bệnh thành công!');
+            notification.success({
+                message: 'Lưu kết quả khám thành công',
+                description: 'Đã lưu kết quả khám bệnh và đơn thuốc!',
+            });
             navigate('/examination');
         } catch (error) {
             console.error('Lỗi khi lập phiếu khám bệnh:', error);
@@ -247,14 +258,17 @@ const MakePage = () => {
                 Quay lại
             </button>
             <div className={styles.registerContainer}>
-                
-                    <h1 className={styles.header}>PHIẾU KHÁM BỆNH</h1>
-                    <div className={styles.formData}>
+                <h1 className={styles.header}>PHIẾU KHÁM BỆNH</h1>
+                <div className={styles.formData}>
                     <div className={styles['flex-row']}>
-                        <strong>Họ tên:</strong>
+                    <div>
+                        <strong>Họ tên: </strong>
                         {patientData.fullname}
-                        <strong className={styles.date}>Ngày khám:</strong>{' '}
-                        {strdate}
+                        </div>
+                        <div>
+                        <strong>Ngày khám:</strong>
+                         {strdate}
+                        </div>
                     </div>
 
                     <div className={styles.flexColumn}>
@@ -295,59 +309,63 @@ const MakePage = () => {
                     </div>
                 </div>
             </div>
-            {rows.length >0?(
-            <div>
-                <h1 className={styles.header}>ĐƠN THUỐC</h1>
-                <table className={styles.table_make} border='1'>
-                    <colgroup>
-                        <col style={{ width: '5%' }} />
-                        <col style={{ width: '35%' }} />
-                        <col style={{ width: '15%' }} />
-                        <col style={{ width: '15%' }} />
-                        <col style={{ width: '15%' }} />
-                        <col style={{ width: '10%' }} />
-                    </colgroup>
-                    <thead>
-                        <tr>
-                            <th>STT</th>
-                            <th>Tên thuốc</th>
-                            <th>Đơn vị</th>
-                            <th>Cách dùng</th>
-                            <th>Số lượng</th>
-                            <th>Thao tác</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {rows.map((row, index) => (
-                            <tr key={row.id}>
-                                <td>{index + 1}</td>
-                                <td>{row.drugName}</td>
-                                <td>{row.unit}</td>
-                                <td>{row.usage}</td>
-                                <td>{row.quantity}</td>
-                                <td>
-                                    <button
-                                        className={styles.buttonAdd}
-                                        onClick={() => openModal(row)}
-                                    >
-                                        Sửa
-                                    </button>
-                                    <button
-                                        className={styles.buttonDelete}
-                                        onClick={() => handleRemoveRow(row.id)}
-                                    >
-                                        Xóa
-                                    </button>
-                                </td>
+            {rows.length > 0 ? (
+                <div>
+                    <h1 className={styles.header}>ĐƠN THUỐC</h1>
+                    <table className={styles.table_make} border='1'>
+                        <colgroup>
+                            <col style={{ width: '5%' }} />
+                            <col style={{ width: '35%' }} />
+                            <col style={{ width: '15%' }} />
+                            <col style={{ width: '15%' }} />
+                            <col style={{ width: '15%' }} />
+                            <col style={{ width: '10%' }} />
+                        </colgroup>
+                        <thead>
+                            <tr>
+                                <th>STT</th>
+                                <th>Tên thuốc</th>
+                                <th>Đơn vị</th>
+                                <th>Cách dùng</th>
+                                <th>Số lượng</th>
+                                <th>Thao tác</th>
                             </tr>
-                        ))}
-                    </tbody>
-                </table>
-            </div>): <p>Đơn thuốc còn trống</p>
-            }
+                        </thead>
+                        <tbody>
+                            {rows.map((row, index) => (
+                                <tr key={row.id}>
+                                    <td>{index + 1}</td>
+                                    <td>{row.drugName}</td>
+                                    <td>{row.unit}</td>
+                                    <td>{row.usage}</td>
+                                    <td>{row.quantity}</td>
+                                    <td>
+                                        <button
+                                            className={styles.buttonAdd}
+                                            onClick={() => openModal(row)}
+                                        >
+                                            Sửa
+                                        </button>
+                                        <button
+                                            className={styles.buttonDelete}
+                                            onClick={() =>
+                                                handleRemoveRow(row.id)
+                                            }
+                                        >
+                                            Xóa
+                                        </button>
+                                    </td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
+                </div>
+            ) : (
+                null
+            )}
             {modalOpen && (
                 <div className={styles.modal}>
-                    <h3 className={styles.header_mini}>
+                    <h3 className={styles.header}>
                         {editRow ? 'Sửa thuốc' : 'Thêm thuốc'}
                     </h3>
                     <div>
@@ -355,6 +373,7 @@ const MakePage = () => {
                             Chọn thuốc:
                         </label>
                         <select
+                            className={styles.input_make}
                             value={selectedMedicine}
                             onChange={(e) =>
                                 setSelectedMedicine(e.target.value)
@@ -376,6 +395,7 @@ const MakePage = () => {
                             Số lượng:
                         </label>
                         <input
+                            className={styles.input_make}
                             type='number'
                             min='1'
                             value={quantity}
@@ -384,21 +404,24 @@ const MakePage = () => {
                             }
                         />
                     </div>
-                    <button
-                        className={styles.button_make}
-                        onClick={handleAddOrEdit}
-                    >
-                        {editRow ? 'Cập nhật' : 'Thêm'}
-                    </button>
-                    <button
-                        className={styles.button_make_red}
-                        onClick={closeModal}
-                    >
-                        Hủy
-                    </button>
+                    <div className={styles.button}>
+                        <button
+                 
+                            onClick={handleAddOrEdit}
+                        >
+                            {editRow ? 'Cập nhật' : 'Thêm'}
+                        </button>
+                        <button
+                          style={{backgroundColor: 'red'}}
+                            onClick={closeModal}
+                        >
+                            Hủy
+                        </button>
+                    </div>
                 </div>
             )}
-            <div className={styles.flexButtons}>
+            <div className={styles.containerButton}>
+            <div className={styles.button}>
                 <button
                     className={styles.button_make}
                     onClick={() => openModal()}
@@ -409,8 +432,9 @@ const MakePage = () => {
                     className={`${styles.button_make} ${styles.date}`}
                     onClick={handleSubmit}
                 >
-                    Lập phiếu khám bệnh
+                    Lưu kết quả khám
                 </button>
+            </div>
             </div>
         </div>
     );

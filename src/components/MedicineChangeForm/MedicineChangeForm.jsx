@@ -186,15 +186,16 @@ function MedicineChangeForm({
 
                 <div className={styles.inputForm}>
                     <label htmlFor='Use'>Cách dùng</label>
-                    <input
-                        type='text'
-                        id='Use'
-                        name='medicineUsage'
+                    
+                    <select name='medicineUsage' id='Use'
                         value={selectedMedicine.medicineUsage}
-                        onChange={handleChange}
-                        placeholder='Vd: 1 viên/ ngày'
-                        className={styles.inputField}
-                    />
+                        onChange={handleChange} className={styles.inputField}
+                    >
+                        <option value='Cách dùng 1'>Cách dùng 1</option>
+                        <option value='Cách dùng 2'>Cách dùng 2</option>
+                        <option value='Cách dùng 3'>Cách dùng 3</option>
+                        <option value='Cách dùng 4'>Cách dùng 4</option>
+                    </select>
                     <span className={styles.error}>{error.medicineUsage}</span>
                 </div>
                 <div className={styles.button}>

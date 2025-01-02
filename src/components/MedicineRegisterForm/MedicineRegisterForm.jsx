@@ -16,7 +16,7 @@ function MedicineRegisterForm({ data, setData }) {
         nameOfMedicine: '',
         unit: 'Viên',
         price: '0',
-        medicineUsage: '',
+        medicineUsage: 'Cách dùng 1',
     });
     const [error, setError] = useState({
         nameOfMedicine: '',
@@ -118,7 +118,7 @@ function MedicineRegisterForm({ data, setData }) {
                 nameOfMedicine: '',
                 unit: 'Viên',
                 price: '',
-                medicineUsage: '',
+                medicineUsage: 'Cách dùng 1',
             });
         } catch (error) {
             console.log(error);
@@ -170,15 +170,17 @@ function MedicineRegisterForm({ data, setData }) {
 
                 <div className={styles.inputForm}>
                     <label htmlFor='Use'>Cách dùng</label>
-                    <input
-                        type='text'
-                        id='Use'
-                        name='medicineUsage'
-                        value={medicine.medicineUsage}
-                        onChange={handleChange}
-                        placeholder='Vd: 1 viên/ ngày'
-                        className={styles.inputField}
-                    />
+                    <select name="medicineUsage" id="Use"
+                     value={medicine.medicineUsage}
+                        onChange={handleChange} className={styles.inputField}
+
+                     >
+                        <option value='Cách dùng 1'>Cách dùng 1</option>
+                        <option value='Cách dùng 2'>Cách dùng 2</option>
+                        <option value='Cách dùng 3'>Cách dùng 3</option>
+                        <option value='Cách dùng 4'>Cách dùng 4</option>
+
+                    </select>
                     <span className={styles.error}>{error.medicineUsage}</span>
                 </div>
                 <button onClick={handleRegister} className={styles.button}>

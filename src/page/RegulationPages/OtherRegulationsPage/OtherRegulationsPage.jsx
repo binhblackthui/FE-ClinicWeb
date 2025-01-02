@@ -1,10 +1,11 @@
 import { useEffect, useState } from 'react';
 import { notification } from 'antd';
 import styles from './OtherRegulationsPage.module.css';
-import { getConfigration, updateConfigration } from '../../../service/service';
+import { getConfigration, updateConfigration, findByDate } from '../../../service/service';
 import { parseCurrency,formatCurrency, isInt} from '../../../helper/stringUtils';
 import { postIntrospection } from '../../../service/service';
 import { useAuth } from '../../../components/AuthContext/AuthContext';
+
 function OtherRegulationsPage() {
     const [config, setConfig] = useState({
          maxPatient: '',
@@ -15,6 +16,12 @@ function OtherRegulationsPage() {
         examinationPrice: '',
     });
     const { logout } = useAuth();
+    const today = new Date();
+    const year = today.getFullYear();
+    const month = String(today.getMonth() + 1).padStart(2, '0');
+    const day = String(today.getDate()).padStart(2, '0');
+    const standard_today = `${year}-${month}-${day}`;
+    const [quantityPatient, setQuantityPatient] = useState(0);
 
     useEffect(() => {
         const checkSession = async () => {
@@ -40,6 +47,8 @@ function OtherRegulationsPage() {
         const fetchData = async () => {
             try {
                 const response = await getConfigration();
+                const patients = await findByDate(standard_today);
+                setQuantityPatient(patients.data.length);
                 setConfig(response.data);
             } catch (error) {
                 console.log(error);
@@ -76,6 +85,14 @@ function OtherRegulationsPage() {
     };
     const handleUpdate = async () => {
         if (error.maxPatient !== '' || error.examinationPrice !== '') {
+            return;
+        }
+        if((config.maxPatient<quantityPatient))
+        {
+            notification.error({
+                message: 'Cập nhật thất bại',
+                description: 'Số bệnh nhân tối đa phải lớn hơn số bệnh nhân hiện tại',
+            });
             return;
         }
         console.log(config);

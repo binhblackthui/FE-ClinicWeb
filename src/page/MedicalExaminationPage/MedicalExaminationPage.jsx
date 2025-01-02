@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from 'react';
+import { notification } from 'antd';
 import styles from './MedicalExaminationPage.module.css';
 import {
     findByDate,
     addPatient,
     deletePatientById,
+    getConfigration
 } from '../../service/service';
-import { useNavigate } from 'react-router-dom';
+import { data, useNavigate } from 'react-router-dom';
 const MedicalExaminationPage = () => {
     const [data_table, setDataTable] = useState([]);
     const [formData, setFormData] = useState({
@@ -14,12 +16,26 @@ const MedicalExaminationPage = () => {
         address: '',
         sex: '',
     });
+    const [maxPatient, setMaxPatient] = useState(0);
     const today = new Date();
     const year = today.getFullYear();
     const month = String(today.getMonth() + 1).padStart(2, '0');
     const day = String(today.getDate()).padStart(2, '0');
     const standard_today = `${year}-${month}-${day}`;
-
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const response = await getConfigration();
+                setMaxPatient(response.data.maxPatient);
+            } catch (error) {
+                console.error(
+                    'Lỗi khi gọi API: ',
+                    error.response?.data || error.message
+                );
+            }
+        };
+        fetchData();
+    }, []);
     const handleChange = (e) => {
         const { name, value } = e.target;
         setFormData({
@@ -29,6 +45,10 @@ const MedicalExaminationPage = () => {
     };
 
     const handleSubmit = async (e) => {
+        if(data_table.length >= maxPatient){
+            alert('Vượt quá số bệnh nhân tối đa');
+            return;
+        }
         e.preventDefault();
         try {
             // Gửi dữ liệu lên server
@@ -50,6 +70,10 @@ const MedicalExaminationPage = () => {
                 yearOfBirth: 0,
                 address: '',
                 sex: '',
+            });
+            notification.success({
+                message: 'Thêm bệnh nhân thành công',
+                description: 'Bệnh nhân đã được thêm vào danh sách',
             });
         } catch (error) {
             console.error('Lỗi khi thêm bệnh nhân:', error);
@@ -83,6 +107,11 @@ const MedicalExaminationPage = () => {
             setDataTable((data_table) =>
                 data_table.filter((patient) => patient.id !== id)
             );
+            notification.success({
+                message: 'Xóa bệnh nhân thành công',
+                description: 'Bệnh nhân đã được xóa khỏi danh sách',
+            });
+
         } catch (error) {
             console.error('Lỗi khi xóa:', error);
         }
@@ -99,7 +128,7 @@ const MedicalExaminationPage = () => {
         <div className={styles.container_make}>
             <div className={styles.registerContainer}>
                 <h2 className={styles.header}>Thêm bệnh nhân</h2>
-                <form onSubmit={handleSubmit}>
+                <form  onSubmit={handleSubmit}>
                     <div>
                         <label
                             htmlFor='fullname'
@@ -178,11 +207,14 @@ const MedicalExaminationPage = () => {
                             Nữ
                         </label>
                     </div>
-                    <button className={styles.button_make} type='submit'>
-                        Thêm bệnh nhân
+                    <div className={styles.buttonContainer}>
+                    <button className={styles.buttonRegister} type='submit'>
+                        Đăng ký
                     </button>
+                    </div>
                 </form>
             </div>
+            {data_table.length > 0 ? (<>
             <h1 className={styles.header}>Danh sách bệnh nhân</h1>
             <table
                 className={styles.patientTable}
@@ -191,7 +223,7 @@ const MedicalExaminationPage = () => {
                 <colgroup>
                     <col style={{ width: '5%' }} />
                     <col style={{ width: '25%' }} />
-                    <col style={{ width: '5%' }} />
+                    <col style={{ width: '10%' }} />
                     <col style={{ width: '10%' }} />
                     <col style={{ width: '40%' }} />
                     <col style={{ width: '5%' }} />
@@ -220,7 +252,7 @@ const MedicalExaminationPage = () => {
                                     cursor: 'pointer',
                                 }}
                             >
-                                <td>{patient.id}</td>
+                                <td>{data_table.indexOf(patient)+1}</td>
                                 <td>{patient.fullname}</td>
                                 <td>{patient.sex}</td>
                                 <td>{patient.yearOfBirth}</td>
@@ -243,15 +275,18 @@ const MedicalExaminationPage = () => {
                     )}
                 </tbody>
             </table>
+           
             <div style={{ display: 'flex', gap: '20px' }}>
                 <button
                     className={styles.button_make}
                     onClick={handleProfileCreation}
                     style={{ marginTop: '20px' }}
                 >
-                    Lập Hồ Sơ
+                    Lập bệnh án
                 </button>
             </div>
+            
+            </>) : (<p style={{ fontSize: '18px',display: 'flex',justifyContent: 'center', alignItems : 'center'}}>Danh sách bệnh nhân trống</p>)}
         </div>
     );
 };

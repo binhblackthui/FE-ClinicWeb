@@ -14,7 +14,7 @@ function ReportMedicinePage() {
         if (!month) return 'Vui lòng chọn tháng!';
         if (month >= new Date().toISOString().slice(0, 7))
             return 'Vui lòng chọn tháng khác!';
-        return 'Doanh số thuốc của tháng này chưa được cập nhật!';
+        return '';
     };
     
     useEffect(() => {
@@ -53,7 +53,7 @@ function ReportMedicinePage() {
         const validationError = validateMonth(month);
         if (validationError) {
             setError(validationError);
-            return;
+           return;
         }
         try{
             const checkSession = await postIntrospection();
@@ -76,6 +76,10 @@ function ReportMedicinePage() {
 
         try {
             const response = await getSalesMedicine(monthNum, year);
+            if(response.data.length === 0){
+                setError('Không có dữ liệu tháng này');
+
+            }
             setReport(response.data);
         } catch (e) {
             setError('Đã có lỗi xảy ra');
@@ -104,7 +108,7 @@ function ReportMedicinePage() {
                     </button>
                 </div>
 
-                {report.length > 0 && !error ? (
+                {report.length > 0 && !error? (
                     <table className={styles.resultTable}>
                         <thead>
                             <tr>
@@ -128,7 +132,7 @@ function ReportMedicinePage() {
                         </tbody>
                     </table>
                 ) : (
-                    <p className={styles.error}>{error}</p>
+                  <p className={styles.error}>{error}</p> 
                 )}
             </div>
         </>

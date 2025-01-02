@@ -1,4 +1,3 @@
-
 .container_make {
     padding: 20px;
     font-family: Arial, sans-serif;
@@ -17,13 +16,12 @@
     background-color: #ffffff;
     border-radius: 10px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-    max-width: 50%;
+    max-width: 30%;
     margin: 0 auto;
     position: relative;
     top: 5vh;
     margin-bottom: 100px;
 }
-
 
 .header {
     font-size: 24px;
@@ -31,18 +29,17 @@
     margin-bottom: 20px;
     text-align: center;
     color: #333;
-  }
-  
-  .dataField_make {
+}
+
+.dataField_make {
     font-size: 18px;
     margin-bottom: 8px;
     font-weight: bold;
     color: #333;
     display: block;
+}
 
-  }
-  
-  .input_make {
+.input_make {
     width: 100%;
     padding: 10px;
     margin-bottom: 15px;
@@ -50,18 +47,18 @@
     border-radius: 5px;
     font-size: 16px;
     box-sizing: border-box;
-  }
-  
-  .input_make:focus {
+}
+
+.input_make:focus {
     border-color: #007bff;
     outline: none;
-  }
-  
-  .input_sex {
-    margin-right: 8px;
-  }
+}
 
-.button_make{
+.input_sex {
+    margin-right: 8px;
+}
+
+.button_make {
     background-color: #007bff;
     color: #fff;
     border: none;
@@ -73,7 +70,7 @@
     transition: background-color 0.3s;
     margin-right: 1px;
 }
-.button_make_red{
+.button_make_red {
     background-color: #e10404;
     color: #fff;
     border: none;
@@ -92,20 +89,18 @@
     background-color: #0056b3;
 }
 
-.makeExamination{
+.makeExamination {
     font-size: 20px;
     margin: 0px;
 }
 .label_input_container {
     display: flex;
 }
-.table_make{
-    
+.table_make {
     width: 100%;
     border-collapse: collapse;
     margin-top: 20px;
     user-select: none;
-
 }
 .table_make th,
 .table_make td {
@@ -122,37 +117,34 @@
     font-weight: bold;
 }
 .flex-row {
-    display: flex;;
-    align-items: center;
-
-
-    justify-content: center;
+    display: flex;
+    margin-top: 20px;
+    margin-bottom: 30px; /* Tùy chỉnh khoảng cách dưới dòng */
+    justify-content: space-between;
     font-size: 18px;
-    margin: 30px;
-
-
 }
+
 .flex-row2 {
     display: flex;
     align-items: center;
 
     margin-bottom: 30px; /* Tùy chỉnh khoảng cách dưới dòng */
-  }  
+}
 .flex-buttons {
     display: flex;
     justify-content: flex-start; /* Căn trái */
     gap: 10px; /* Khoảng cách giữa các nút */
     margin-top: 20px; /* Khoảng cách trên nút */
     margin-right: 20px;
-  }
-.date{
+}
+.date {
     margin-left: 238px;
 }
-.data{
+.data {
     margin-bottom: 20px;
 }
 
-.patientTable{
+.patientTable {
     width: 100%;
     border-collapse: collapse;
     margin-top: 20px;
@@ -172,7 +164,7 @@
     color: #fff;
     font-weight: bold;
 }
-.patientTable td{
+.patientTable td {
     cursor: pointer;
 }
 .patientTable tr:nth-child(even) {
@@ -188,15 +180,14 @@
     display: flex;
     flex-direction: column;
     gap: 20px;
-
 }
-.formData{
+.formData {
     padding: 20px;
-     border: 2px solid black;
+    border: 2px solid black;
 
     border-radius: 10px;
 }
-.buttonDelete{
+.buttonDelete {
     background-color: #e10404;
     color: #fff;
     border: none;
@@ -206,10 +197,9 @@
     cursor: pointer;
     font-size: 16px;
     transition: background-color 0.3s;
-
 }
 
-.buttonAdd{
+.buttonAdd {
     background-color: #007bff;
     color: #fff;
     border: none;
@@ -220,4 +210,62 @@
     font-size: 16px;
     transition: background-color 0.3s;
 
+}
+.modal {
+    padding: 30px;
+    font-family: Arial, sans-serif;
+    background-color: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    max-width: 30%;
+    margin: 0 auto;
+    position: relative;
+    top: 5vh;
+    margin-bottom: 100px;
+}
+
+.button {
+    display: flex;
+    flex: 1;
+    justify-content: space-between;
+}
+.button button {
+    flex: 1;
+    margin: auto 10px;
+    padding: 12px 20px;
+    background-color: #007bff;
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-top: 20px;
+}
+.containerButton {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+    max-width: 40%;
+    margin: auto;
+}
+
+.buttonRegister {
+    display: flex;
+    flex: 1;
+    margin: auto 10px;
+    padding: 12px 20px;
+    background-color: #007bff;
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-top: 20px;
+    justify-content: center;
+    align-items: center;
+;
 }
